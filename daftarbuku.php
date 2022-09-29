@@ -14,7 +14,7 @@ $take = mysqli_query($db,"SELECT * FROM buku");
 <body>
     
                          <div class="container text-center mt-4">
-                            <table class="table mt-4">
+                            <table class="table table-striped table-hover mt-4">
                             <thread>
                                 <tr>
                                 <th scope="col">No</th>
@@ -34,17 +34,17 @@ $take = mysqli_query($db,"SELECT * FROM buku");
                                 
                                 ?>
                                 <tr>
-                                <td><?= $data['no'] ?> </td>
+                                <td><?= $data['id_buku'] ?> </td>
                                 <td><?= $data['penulis'] ?> </td>
                                 <td><?= $data['tahun'] ?> </td>
                                 <td><?= $data['judul'] ?> </td>
                                 <td><?= $data['kota'] ?> </td>
-                                <td><?= $data['Penerbit'] ?> </td>
+                                <td><?= $data['penerbit'] ?> </td>
                                 <td>
                                     <img src="cover/<?= $data['cover'] ?>" alt="" class="img-thumbnail" style="width: 50px;">  
                                 </td>
-                                <td><?= $data['Sinopsis'] ?> </td>
-                                <td><?= $data['Stok'] ?> </td>
+                                <td><?= $data['sinopsis'] ?> </td>
+                                <td><?= $data['stok'] ?> </td>
                                 </tr>
                                 <?php
                                 }
