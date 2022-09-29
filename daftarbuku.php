@@ -60,6 +60,7 @@ $take = mysqli_query($db,"SELECT * FROM buku");
     
         <h4 class="mt-3 fw-bold" style="color: darkslateblue;">Daftar Buku : </h4>
         <div class="row justify-content-center">
+            <!-- Thor -->
             <?php
                 while($data = mysqli_fetch_array($take)){
             ?>
