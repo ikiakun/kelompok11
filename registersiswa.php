@@ -1,10 +1,14 @@
+<?php
+include 'config.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Register Akun Siswa</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
 </head>
@@ -17,22 +21,11 @@
                 <!-- Kotak Register -->
                 <div class="card border-0 shadow">
                     <div class="card-body">
-                        <h1 class="text-center mb-3">Register</h1>
+                        <h1 class="text-center mb-3">Register Untuk Siswa</h1>
                         <form method="POST">
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama" autofocus required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Jenis Kelamin</label>
-                                <select class="form-select mb-3">
-                                    <option value="L">Laki-laki</option>
-                                    <option value="P">Perempuan</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Alamat</label>
-                                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat" required>
+                                <label class="form-label fw-bold">NIS</label>
+                                <input type="text" class="form-control" id="nis" name="nis" placeholder="Masukkan NIS" autofocus required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Password</label>
@@ -46,7 +39,7 @@
                                 <input type="checkbox" class="form-check-input" id="show" onclick="showPassword()">
                                 <label class="form-check-label text-secondary">Show Password</label>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100 mb-4">Register</button>
+                            <button type="submit" class="btn btn-primary w-100 mb-4" name="submit">Register</button>
                         </form>
                     </div>
                 </div>
@@ -74,22 +67,22 @@
     <!-- Thor - mysqli konten -->
     <?php
         if(isset($_POST['submit'])){
-        $username = $_POST['nama'];
+        $username = $_POST['nis'];
         $password = $_POST['password'];
         $password2 = $_POST['konfirm'];
         
             if($password !== $password2){
-                echo "<script>alert('Password tidak cocok!')</script>";
+                echo "<script>alert('Password gak cocok iku lho!')</script>";
             }elseif($password == $password2){
-            $query = mysqli_query($db, "SELECT * FROM user WHERE username = '$username'");
+            $query = mysqli_query($db, "SELECT * FROM usersiswa WHERE nis = '$username'");
             $data = mysqli_fetch_assoc($query);
                 if($data){
-                    echo "<script>alert('Nama sudah ada, KREATIFLAH!')</script>";
+                    echo "<script>alert('NIS sudah ada, Enta kadang-kadang ente!')</script>";
                 }else{
-                mysqli_query ($db, "INSERT INTO user(id_pangkat, username, password) 
-                VALUES(2, '$username', $password)");
+                mysqli_query ($db, "INSERT INTO usersiswa(id_user, nis, password) 
+                VALUES('', '$username', $password)");
                 echo "<script>alert('Berhasil membuat akun, silakan login');
-                window.location='login.php';</script>";
+                window.location='index.php';</script>";
                     }
             }
         }
