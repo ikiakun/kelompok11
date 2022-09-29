@@ -1,5 +1,5 @@
 <?php
-include ('config.php');
+include 'config.php';
 $take = mysqli_query($db,"SELECT * FROM buku");
 
 ?>
@@ -26,6 +26,7 @@ $take = mysqli_query($db,"SELECT * FROM buku");
                                 <th scope="col">Cover</th>
                                 <th scope="col">Sinopsis</th>
                                 <th scope="col">Stok</th>
+                                <th scope="col">Aksi</th>
                                 </tr>
                             </thread>
                             <tbody>
@@ -34,17 +35,21 @@ $take = mysqli_query($db,"SELECT * FROM buku");
                                 
                                 ?>
                                 <tr>
-                                <td><?= $data['id_buku'] ?> </td>
-                                <td><?= $data['penulis'] ?> </td>
-                                <td><?= $data['tahun'] ?> </td>
-                                <td><?= $data['judul'] ?> </td>
-                                <td><?= $data['kota'] ?> </td>
-                                <td><?= $data['penerbit'] ?> </td>
-                                <td>
-                                    <img src="cover/<?= $data['cover'] ?>" alt="" class="img-thumbnail" style="width: 50px;">  
-                                </td>
-                                <td><?= $data['sinopsis'] ?> </td>
-                                <td><?= $data['stok'] ?> </td>
+                                    <td><?= $data['id_buku'] ?> </td>
+                                    <td><?= $data['penulis'] ?> </td>
+                                    <td><?= $data['tahun'] ?> </td>
+                                    <td><?= $data['judul'] ?> </td>
+                                    <td><?= $data['kota'] ?> </td>
+                                    <td><?= $data['penerbit'] ?> </td>
+                                    <td>
+                                        <img src="cover/<?= $data['cover'] ?>" alt="" class="img-thumbnail" style="width: 50px;">  
+                                    </td>
+                                    <td><?= $data['sinopsis'] ?> </td>
+                                    <td><?= $data['stok'] ?> </td>
+                                    <td colspan="2">
+                                        <a href="editbuku.php?id_buku=<?= $data['id_buku'] ?>" class ="btn btn-warning">edit</a>
+                                        <a href="deletebuku.php?id_buku=<?= $data['id_buku'] ?>" class="btn btn-danger">hapus</a>
+                                    </td>
                                 </tr>
                                 <?php
                                 }
