@@ -9,16 +9,16 @@ include 'config.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit Data Buku</title>
 </head>
 <body>
 
-                        <!-- Thor - Konten mysql -->
-                        <?php
+                    <!-- Thor - Konten mysql -->
+                    <?php
                         $id = $_GET['id_buku'];
-                        $take = mysqli_query($db, "SELECT * FROM buku WHERE id_buku='$id'");
-                        while ($data = mysqli_fetch_assoc($take)) {
-                        ?>
+                        $take = mysqli_query($db, "SELECT * FROM `buku` WHERE id_buku = $id");
+                        $data1 = mysqli_fetch_assoc($take);
+                    ?>
                     <div class="container m-5">
                         <form action="" method="POST" enctype="multipart/form-data">
                         <div class="mb-3">
