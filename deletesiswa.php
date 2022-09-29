@@ -1,9 +1,8 @@
-<!-- Thor - Konten mysql -->
 <?php
 include 'config.php';
 
-$id = $_GET['id_buku'];
-$delete = mysqli_query($db, "DELETE FROM buku WHERE id_buku='$id'");
+$id = $_GET['nis'];
+$delete = mysqli_query($db, "DELETE FROM siswa WHERE nis='$id'");
 
     if ($delete) { 
         echo "<script>alert("Berhasil menghapus");
