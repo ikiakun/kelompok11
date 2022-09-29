@@ -70,5 +70,29 @@
             }
         }
     </script>
+
+    <!-- Thor - mysqli konten -->
+    <?php
+        if(isset($_POST['submit'])){
+        $username = $_POST['nama'];
+        $password = $_POST['password'];
+        $password2 = $_POST['konfirm'];
+        
+            if($password !== $password2){
+                echo "<script>alert('Password tidak cocok!')</script>";
+            }elseif($password == $password2){
+            $query = mysqli_query($db, "SELECT * FROM user WHERE username = '$username'");
+            $data = mysqli_fetch_assoc($query);
+                if($data){
+                    echo "<script>alert('Nama sudah ada, KREATIFLAH!')</script>";
+                }else{
+                mysqli_query ($db, "INSERT INTO user(id_pangkat, username, password) 
+                VALUES(2, '$username', $password)");
+                echo "<script>alert('Berhasil membuat akun, silakan login');
+                window.location='login.php';</script>";
+                    }
+            }
+        }
+    ?>
 </body>
 </html>
