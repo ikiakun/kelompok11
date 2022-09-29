@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
 </head>
@@ -17,12 +17,11 @@
                 <!-- Kotak Login -->
                 <div class="card border-0 shadow">
                     <div class="card-body">
-                        <img src="assets/img/logo-dummies.jpg" alt="" class="img img-thumbnail mt-3 rounded-circle border-0 mx-auto d-flex" style="height: 75px;">
-                        <h3 class="text-center mb-3">Sign in</h3>
+                        <h1 class="text-center mb-3">Log in</h1>
                         <form method="POST">
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" autofocus>
+                                <label class="form-label fw-bold">Nama</label>
+                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Enter Name" autofocus>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Password</label>
@@ -33,7 +32,7 @@
                                 <label class="form-check-label text-secondary">Show Password</label>
                             </div>
                             <button type="submit" class="btn btn-primary w-100 mb-4">Sign In</button>
-                            <p class="text-secondary text-center">Don't Have An Account? <a href="" class="fw-bold link-dark">Sign up</a> </p>
+                            <p class="text-secondary text-center">Don't Have An Account? <a href="register.php" class="fw-bold link-dark">Register</a> </p>
                         </form>
                     </div>
                 </div>
