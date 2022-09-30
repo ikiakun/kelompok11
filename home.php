@@ -25,7 +25,7 @@ $take = mysqli_query($db,"SELECT * FROM buku");
                 <input class="form-control me-2 w-100" type="search" placeholder="Cari Buku...">
                 <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
-            <a href="" class="btn rounded-pill" style="width: 100px;color: darkslateblue; border-color: darkslateblue;">Login</a>
+            <a href="logout.php" class="btn rounded-pill" style="width: 100px;color: darkslateblue; border-color: darkslateblue;">Logout</a>
             <!-- <ul class="navbar nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
