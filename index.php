@@ -73,7 +73,7 @@ if (isset($_POST['submit'])) {
         <div class="row justify-content-center">
             <!-- Thor -->
             <?php
-                while($data = mysqli_fetch_array($take)){
+                // while($data = mysqli_fetch_array($take)){
             ?>
             <div class="col-2 mt-3">
                 <div class="card border-0">

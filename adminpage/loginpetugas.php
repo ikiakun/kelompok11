@@ -1,5 +1,6 @@
 <?php
 include ('config.php');
+// Thor - php
 session_start();
 
 if(isset($_SESSION['nip'])){
