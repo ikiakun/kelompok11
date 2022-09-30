@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="style/stylesiswa.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
 </head>
@@ -17,7 +18,7 @@
                 <!-- Kotak Login -->
                 <div class="card border-0 shadow">
                     <div class="card-body">
-                        <h1 class="text-center mb-3">Log in</h1>
+                        <h1 class="text-center mb-3">Login Siswa</h1>
                         <form method="POST">
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Nama</label>
@@ -32,7 +33,8 @@
                                 <label class="form-check-label text-secondary">Show Password</label>
                             </div>
                             <button type="submit" class="btn btn-primary w-100 mb-4">Sign In</button>
-                            <p class="text-secondary text-center">Don't Have An Account? <a href="register.php" class="fw-bold link-dark">Register</a> </p>
+                            <p class="text-secondary text-center">Belum punya <s>jodoh</s> akun? <a href="registersiswa.php" class="fw-bold link-dark">Daftar disini</a> </p>
+                            <p class="text-secondary text-center">Bukan siswa? <a href="#.php" class="fw-bold link-dark">Login disini</a> </p>
                         </form>
                     </div>
                 </div>
