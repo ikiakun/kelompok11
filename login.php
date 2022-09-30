@@ -2,15 +2,15 @@
 include "config.php";
 
 session_start();
-if($_SESSION['username']){
-    header('location:#');
+if($_SESSION['nis']){
+    header('location:config.php');
 }
 if (isset($_POST['submit'])) {
     $username = $_POST['nis'];
     $password = $_POST['password'];
     
-    $sql = mysqli_query($db, "SELECT * FROM usersiswa WHERE nis = '$username'");
-    $data = mysqli_fetch_assoc($sql);
+    $query = mysqli_query($db, "SELECT * FROM usersiswa WHERE nis = '$username'");
+    $data = mysqli_fetch_assoc($query);
     if($data['nis']){
         if($data['password'] == $password){
             $_SESSION['nis'] = $username;
