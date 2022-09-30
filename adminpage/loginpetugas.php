@@ -1,3 +1,32 @@
+<?php
+include ('config.php');
+session_start();
+
+if(isset($_SESSION['nip'])){
+  header('location: ../home.php');
+}
+
+if(isset($_POST['login'])){
+    $username = $_POST['nip'];
+    $password = $_POST['password'];
+
+    $query = mysqli_query ($db, "SELECT * FROM petugas WHERE nip='$username' AND password='$password'");
+    $data = mysqli_fetch_assoc($query);
+
+    if($data){
+        $_SESSION['username'] = $data['username'];
+        $_SESSION['id_level'] = $data['id_level'];
+        if($_SESSION['id_level'] == 1){
+          header('location: ../home.php');
+        }elseif($_SESSION['id_level'] == 2) {
+          header('location: ../home.php');
+        }
+      } else{
+        echo "<script>alert('Anda kurang beruntung')</script>";
+      }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,30 +38,6 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-<?php
-    include 'config.php'; 
-
-    session_start();
-
-    if(isset($_POST['login'])){
-        $nama = $_POST['nama'];
-        $pass = $_POST['password'];
-
-        $login = mysqli_query($db, "SELECT * FROM petugas WHERE nama = '$nama'");
-        $data = mysqli_fetch_array($login);
-
-        if($pass == $data['password']){
-            $_SESSION['nip'] = $data['nip'];
-            echo "<script>alert('Berhasil Login');
-                document.location = 'peminjaman.php';
-                </script>";
-        }else{
-            echo "<script>alert('Gagal Login');
-                document.location = 'login.php';
-                </script>";
-        }
-    }
-?>
     <div class="container">
         <div class="row">
             <div class="col-4 mx-auto" style="margin-top: 120px;">
@@ -43,8 +48,8 @@
                         <h1 class="text-center mb-3">Log in</h1>
                         <form method="POST">
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Enter Name" autofocus>
+                                <label class="form-label fw-bold">NIP</label>
+                                <input type="text" class="form-control" id="nip" name="nip" placeholder="Enter NIP" autofocus>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Password</label>
@@ -54,7 +59,7 @@
                                 <input type="checkbox" class="form-check-input" id="show" onclick="showPassword()">
                                 <label class="form-check-label text-secondary">Show Password</label>
                             </div>
-                            <button type="submit" name="login" class="btn btn-primary w-100 mb-4">Sign In</button>
+                            <button type="submit" name="login" class="btn btn-primary w-100 mb-4">Login</button>
                             <p class="text-secondary text-center">Don't Have An Account? <a href="register.php" class="fw-bold link-dark">Register</a> </p>
                         </form>
                     </div>
