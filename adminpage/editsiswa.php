@@ -23,7 +23,7 @@ include 'config.php';
                         $data1 = mysqli_fetch_assoc($take);
                     ?>
                     <div class="container m-5">
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form action="" method="GET" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label class="form-label">NIS</label>
                             <input type="text" class="form-control" name="nis" value="<?= $data1['nis'] ?>">
@@ -37,8 +37,8 @@ include 'config.php';
                             <div class="dropdown">
                             <select class="form-select" aria-label="Default select example" name="id_kelamin">
                             <?php
-                                $jur = mysqli_query($db, "SELECT * FROM kelamin");
-                                while($data = mysqli_fetch_assoc($jur)) {
+                                $kel = mysqli_query($db, "SELECT * FROM kelamin");
+                                while($data = mysqli_fetch_assoc($kel)) {
                             ?>
                             <option value="<?= $data['id_kelamin']?>"> <?= $data['kelamin'] ?> </option>
                                 <?php
@@ -69,15 +69,16 @@ include 'config.php';
                         <button type="submit" class = "btn btn-success" name="submit">Ganti!</button>
                         </form>
                         <?php
-                        if(isset($_POST['submit'])){
-                            $nip = $_POST['nip'];
-                            $nama = $_POST['nama'];
-                            $alamat = $_POST['alamat'];
-                            $password = $_POST['password'];
+                        if(isset($_GET['submit'])){
+                            $nip = $_GET['nip'];
+                            $nama = $_GET['nama'];
+                            $kelam = $_GET['id_kelamin'];
+                            $alamat = $_GET['alamat'];
+                            $kelas = $_GET['id_kelas'];
 
                             $query = mysqli_query ($db, 
-                            "UPDATE buku SET penulis='$penulis', tahun='$tahun', judul='$judul', kota='$kota', penerbit='$penerbit', cover='$cover', sinopsis='$sinopsis', stok='$stok'
-                            WHERE id_buku=$id");
+                            "UPDATE siswa SET nama='$nama', id_kelamin='$kelam', alamat='$alamat', id_kelas='$kelas'
+                            WHERE nis=$id");
                             if($query){
                             echo "<script>alert(berhasil dirubah);
                             window.location.href='index.php'</script>";
