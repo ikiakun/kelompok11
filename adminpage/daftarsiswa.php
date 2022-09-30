@@ -10,10 +10,14 @@ $take = mysqli_query($db,"SELECT * FROM siswa JOIN kelas ON siswa.id_kelas = kel
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Siswa</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <!-- ICON FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 </head>
 <body>
                         <!-- Thor - Konten mysql -->
-                         <div class="container text-center mt-4">
+                        <div class="container text-center mt-4">
                             <table class="table table-striped table-hover mt-4">
                             <thread>
                                 <tr>
@@ -57,8 +61,8 @@ $take = mysqli_query($db,"SELECT * FROM siswa JOIN kelas ON siswa.id_kelas = kel
                                     <td><?= $data['alamat'] ?> </td>
                                     <td><?= $data['nama_kelas'] ?> </td>
                                     <td colspan="2">
-                                        <a href="editsiswa.php?id_buku=<?= $data['id_buku'] ?>" class ="btn btn-warning">edit</a>
-                                        <a href="deletesiswa.php?id_buku=<?= $data['id_buku'] ?>" class="btn btn-danger">hapus</a>
+                                        <a href="editsiswa.php?nis=<?= $data['nis'] ?>" class ="btn btn-warning">edit</a>
+                                        <a href="deletesiswa.php?nis=<?= $data['nis'] ?>" class="btn btn-danger">hapus</a>
                                     </td>
                                 </tr>
                                 <?php
@@ -70,5 +74,8 @@ $take = mysqli_query($db,"SELECT * FROM siswa JOIN kelas ON siswa.id_kelas = kel
                             </tbody>
                         </div>
                         
+    <!-- Bootstrap JS -->
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
