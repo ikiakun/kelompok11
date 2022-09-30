@@ -24,12 +24,20 @@
                                 <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama" autofocus required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Jenis Kelamin</label>
-                                <select class="form-select mb-3">
-                                    <option value="L">Laki-laki</option>
-                                    <option value="P">Perempuan</option>
-                                </select>
+                            <label class="form-label">Jenis Kelamin</label>
+                            <div class="dropdown">
+                            <select class="form-control" aria-label="Default select example" name="jenis_kelamin">
+                              <?php
+                                $kel = mysqli_query($db, "SELECT jenis_kelamin FROM petugas");
+                                while($data = mysqli_fetch_assoc($kel)) {
+                              ?>
+                            <option value="<?= $data['jenis_kelamin']?>"> <?= $data['jenis_kelamin'] ?> </option>
+                              <?php
+                                }
+                              ?>         
+                            </select>              
                             </div>
+                        </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Alamat</label>
                                 <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat" required>
@@ -75,8 +83,8 @@
     <?php
         if(isset($_POST['submit'])){
         $username = $_POST['nama'];
-        $password = $_POST['password'];
-        $password2 = $_POST['konfirm'];
+        $password = md5($_POST['password']);
+        $password2 = md5($_POST['konfirm']);
         
             if($password !== $password2){
                 echo "<script>alert('Password tidak cocok!')</script>";
