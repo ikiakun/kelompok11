@@ -1,6 +1,6 @@
 <?php
 include 'config.php';
-$take = mysqli_query($db,"SELECT * FROM siswa JOIN kelas ON siswa.id_kelas = kelas.id_kelas");
+$take = mysqli_query($db,"SELECT * FROM siswa JOIN kelas JOIN kelamin ON siswa.id_kelas = kelas.id_kelas AND siswa.id_kelamin = kelamin.id_kelamin");
 
 ?>
 <!DOCTYPE html>
@@ -45,11 +45,11 @@ $take = mysqli_query($db,"SELECT * FROM siswa JOIN kelas ON siswa.id_kelas = kel
                                     }else{
                                         $halaman_awal = 0;
                                     }
-                                    $data = mysqli_query($db, "SELECT * FROM siswa JOIN kelas ON siswa.id_kelas = kelas.id_kelas");
+                                    $data = mysqli_query($db, "SELECT * FROM siswa JOIN kelas JOIN kelamin ON siswa.id_kelas = kelas.id_kelas AND siswa.id_kelamin = kelamin.id_kelamin");
                                     $jumlah_data = mysqli_num_rows($data);
                                     $total_halaman = ceil($jumlah_data/$batas);
 
-                                    $result = mysqli_query($db,"SELECT * FROM siswa JOIN kelas ON siswa.id_kelas = kelas.id_kelas
+                                    $result = mysqli_query($db,"SELECT * FROM siswa JOIN kelas JOIN kelamin ON siswa.id_kelas = kelas.id_kelas AND siswa.id_kelamin = kelamin.id_kelamin
                                                                 ORDER BY nis LIMIT $halaman_awal,$batas");
                                     $no = $halaman_awal+1;
                                     while ($data = mysqli_fetch_array($result)) {
@@ -57,7 +57,7 @@ $take = mysqli_query($db,"SELECT * FROM siswa JOIN kelas ON siswa.id_kelas = kel
                                 <tr>
                                     <td><?= $data['nis'] ?> </td>
                                     <td><?= $data['nama'] ?> </td>
-                                    <td><?= $data['jenis_kelamin'] ?> </td>
+                                    <td><?= $data['kelamin'] ?> </td>
                                     <td><?= $data['alamat'] ?> </td>
                                     <td><?= $data['nama_kelas'] ?> </td>
                                     <td colspan="2">
