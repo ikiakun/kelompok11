@@ -35,8 +35,8 @@ include 'config.php';
                             <div class="dropdown">
                             <select class="form-select" aria-label="Default select example" name="id_kelamin">
                             <?php
-                                $jur = mysqli_query($db, "SELECT * FROM kelamin");
-                                while($data = mysqli_fetch_assoc($jur)) {
+                                $kel = mysqli_query($db, "SELECT * FROM kelamin");
+                                while($data = mysqli_fetch_assoc($kel)) {
                             ?>
                             <option value="<?= $data['id_kelamin']?>"> <?= $data['kelamin'] ?> </option>
                                 <?php
@@ -68,7 +68,7 @@ include 'config.php';
                             WHERE nip=$nip");
                             if($query){
                             echo "<script>alert(berhasil dirubah);
-                            window.location.href='index.php'</script>";
+                            window.location.href='#'</script>";
                             }else{
                             echo 'Gagal Ditambahkan';
                             }
