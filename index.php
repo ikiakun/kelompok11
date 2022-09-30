@@ -14,6 +14,10 @@ $take = mysqli_query($db,"SELECT * FROM buku");
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <!-- ICON FONT AWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <!-- Wow Animate -->
+    <link rel="stylesheet" href="assets/WOW-master/css/libs/animate.css">
+    <!-- CSS Style -->
+    <link rel="stylesheet" href="assets/css/style.css">
     
 </head>
 <body>
@@ -48,9 +52,9 @@ $take = mysqli_query($db,"SELECT * FROM buku");
                 <div class="card-body">
                     <div class="row">
                         <div class="col-5">
-                            <h1 class="mt-5 fw-bold" style="color: darkslateblue;">Hi There!</h1>
-                            <p class="text-secondary">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem fuga magni ipsa expedita officia distinctio ducimus molestias soluta delectus ipsum laborum nam, eaque iste eligendi quidem. Explicabo, dolore architecto! Voluptas aspernatur id sunt distinctio nobis?</p>
-                            <a href="" class="btn mb-5" style="color: darkslateblue; border-color: darkslateblue;">Read more</a>
+                            <h1 class="mt-5 fw-bold wow fadeInLeft" style="color: darkslateblue;">Hi There!</h1>
+                            <p class="text-secondary wow fadeInLeft">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem fuga magni ipsa expedita officia distinctio ducimus molestias soluta delectus ipsum laborum nam, eaque iste eligendi quidem. Explicabo, dolore architecto! Voluptas aspernatur id sunt distinctio nobis?</p>
+                            <a href="" class="tombol-biru btn mb-5 ">Read more</a>
                         </div>
                         <div class="col" style="background: url(assets/img/abstr.png) no-repeat; background-size: 43%; background-position: center;">
                             <!-- <img src="assets/img/abstr.png" alt="" height="300px" class="mx-auto d-block"> -->
@@ -177,5 +181,19 @@ $take = mysqli_query($db,"SELECT * FROM buku");
     <!-- Bootstrap JS -->
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Wow animate -->
+    <script src="assets/WOW-master/dist/wow.js"></script>
+    <script>
+        wow = new WOW(
+                    {
+                      boxClass:     'wow',      // default
+                      animateClass: 'animated', // default
+                      offset:       0,          // default
+                      mobile:       true,       // default
+                      live:         true        // default
+                    }
+                    )
+                    wow.init();
+    </script>
 </body>
 </html>

@@ -1,0 +1,10 @@
+.tombol-biru{
+    color: white; 
+    background-color: darkslateblue;
+}
+
+.tombol-biru:hover{
+    background-color: white; 
+    color: darkslateblue;
+    border-color: darkslateblue;
+}

@@ -16,6 +16,29 @@ $take = mysqli_query($db,"SELECT * FROM siswa JOIN kelas ON siswa.id_kelas = kel
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 </head>
 <body>
+        <!-- Navbar -->
+        <nav class="navbar bg-white">
+        <div class="container">
+            <a href="" class="navbar-brand fw-bold" style="color: darkslateblue;">PerpusQta</a>
+            <form class="d-flex w-50 mx-auto" role="search">
+                <input class="form-control me-2 w-100" type="search" placeholder="Cari Buku...">
+                <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+            <a href="" class="btn rounded-pill" style="width: 100px;color: darkslateblue; border-color: darkslateblue;">Login</a>
+            <!-- <ul class="navbar nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Nama User
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Profil</a></li>
+                        <li><a class="dropdown-item" href="#">Peminjaman</a></li>
+                        <li><a class="dropdown-item" href="#">Log out</a></li>
+                    </ul>
+                </li>
+            </ul> -->
+        </div>
+    </nav>
                         <!-- Thor - Konten mysql -->
                         <div class="container text-center mt-4">
                             <table class="table table-striped table-hover mt-4">
