@@ -1,3 +1,32 @@
+<?php
+include ('../config.php');
+session_start();
+
+if(isset($_SESSION['nip'])){
+  header('location: admin_home.php');
+}
+
+if(isset($_POST['login'])){
+    $username = $_POST['nip'];
+    $password = md5($_POST['password']);
+
+    $query = mysqli_query ($db, "SELECT * FROM petugas WHERE nip='$username' AND password='$password'");
+    $data = mysqli_fetch_assoc($query);
+
+    if($data){
+        $_SESSION['nip'] = $data['nip'];
+        $_SESSION['id_level'] = $data['id_level'];
+        if($_SESSION['id_level'] == 1){
+          header('location: ../home.php');
+        }elseif($_SESSION['id_level'] == 2) {
+          header('location: ../home.php');
+        }
+      } else{
+        echo "<script>alert('Anda kurang beruntung')</script>";
+      }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +34,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="stylesiswa.css">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 
@@ -17,11 +47,11 @@
                 <!-- Kotak Login -->
                 <div class="card border-0 shadow">
                     <div class="card-body">
-                        <h1 class="text-center mb-3">Log in</h1>
+                        <h1 class="text-center mb-3">Login Petugas</h1>
                         <form method="POST">
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Enter Name" autofocus>
+                                <label class="form-label fw-bold">NIP</label>
+                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan NIP" autofocus>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Password</label>
@@ -31,8 +61,9 @@
                                 <input type="checkbox" class="form-check-input" id="show" onclick="showPassword()">
                                 <label class="form-check-label text-secondary">Show Password</label>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100 mb-4">Sign In</button>
-                            <p class="text-secondary text-center">Don't Have An Account? <a href="register.php" class="fw-bold link-dark">Register</a> </p>
+                            <button type="submit" class="btn btn-primary w-100 mb-4" name="login">Login</button>
+                            <p class="text-secondary text-center">Belum punya <s>jodoh</s> akun? Hubungi ADMIN</p>
+                            <p class="text-secondary text-center">Bukan petugas? <a href="../index.php" class="fw-bold link-dark">Login disini</a></p>
                         </form>
                     </div>
                 </div>

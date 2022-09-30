@@ -1,17 +1,42 @@
 <?php
-include 'config.php';
-$take = mysqli_query($db,"SELECT * FROM buku");
+include "config.php";
 
+// session_start();
+// if(isset($_SESSION['nis'])){
+//     header('location: home.php');
+//   }
+  
+if (isset($_POST['submit'])) {
+    $nis = $_POST['nis'];
+    $password = $_POST['password'];
+    
+    $query = mysqli_query($db, "SELECT * FROM usersiswa WHERE nis = '$nis'");
+    $data = mysqli_fetch_assoc($query);
+    if($data['nis']){
+        if($data['password'] == $password){
+            $_SESSION['nis'] = $nis;
+            echo "<script>alert('Login Berhasil');
+            window.location.replace('home.php');</script>";
+        }else{
+            echo "<script>alert('Password Salah')</script>";
+        }
+    }else{
+        echo "<script>alert('Username tidak terdaftar')</script>";
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Buku</title>
+    <title>Login Siswa</title>
+    <link rel="stylesheet" href="stylesiswa.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+<<<<<<< HEAD
     <!-- ICON FONT AWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
     <!-- Wow Animate -->
@@ -19,33 +44,13 @@ $take = mysqli_query($db,"SELECT * FROM buku");
     <!-- CSS Style -->
     <link rel="stylesheet" href="assets/css/style.css">
     
+=======
+>>>>>>> e5fcfcb6c063874ee42f194a4710e8e616143b80
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar bg-white">
-        <div class="container">
-            <a href="" class="navbar-brand fw-bold" style="color: darkslateblue;">PerpusQta</a>
-            <form class="d-flex w-50 mx-auto" role="search">
-                <input class="form-control me-2 w-100" type="search" placeholder="Cari Buku...">
-                <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </form>
-            <a href="" class="btn rounded-pill" style="width: 100px;color: darkslateblue; border-color: darkslateblue;">Login</a>
-            <!-- <ul class="navbar nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Nama User
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Profil</a></li>
-                        <li><a class="dropdown-item" href="#">Peminjaman</a></li>
-                        <li><a class="dropdown-item" href="#">Log out</a></li>
-                    </ul>
-                </li>
-            </ul> -->
-        </div>
-    </nav>
 
     <div class="container">
+<<<<<<< HEAD
         <!-- card1 -->
         <div class="row justify-content-center mt-3">
             <div class="card border-0" style="background-color: bisque;">
@@ -73,114 +78,43 @@ $take = mysqli_query($db,"SELECT * FROM buku");
             <div class="col-2 mt-3">
                 <div class="card border-0">
                     <img src="assets/img/books.jpg" class="card-img-top" alt="...">
+=======
+        <div class="row">
+            <div class="col-4 mx-auto" style="margin-top: 120px;">
+                
+                <!-- Kotak Login -->
+                <div class="card border-0 shadow">
+>>>>>>> e5fcfcb6c063874ee42f194a4710e8e616143b80
                     <div class="card-body">
-                        <h5 class="card-title"><?= $data['judul'] ?></h5>
-                        <p class="card-text text-secondary">Stok : <?= $data['stok'] ?></p>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_buku'] ?>">
-                            Detail
-                        </button>
+                        <h1 class="text-center mb-3">Login Siswa</h1>
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">NIS</label>
+                                <input type="text" class="form-control" id="nama" name="nis" placeholder="Masukkan NIS" autofocus>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="show" onclick="showPassword()">
+                                <label class="form-check-label text-secondary">Show Password</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 mb-4" name="login">Login</button>
+                            <p class="text-secondary text-center">Belum punya <s>jodoh</s> akun? <a href="registersiswa.php" class="fw-bold link-dark">Daftar disini</a> </p>
+                            <p class="text-secondary text-center">Bukan siswa? <a href="petugaspage/loginpetugas.php" class="fw-bold link-dark">Login disini</a> </p>
+                        </form>
                     </div>
                 </div>
             </div>
-
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal<?= $data['id_buku'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel"><?= $data['judul'] ?></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <img src="assets/img/books.jpg" class="d-flex mx-auto" height="200px">
-                            <table class="table table-striped mt-3">
-                                <tbody>
-                                    <tr>
-                                        <td>No : </td>
-                                        <td><?= $data['id_buku'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>penulis : </td>
-                                        <td><?= $data['penulis'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>tahun : </td>
-                                        <td><?= $data['tahun'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>judul : </td>
-                                        <td><?= $data['judul'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>kota : </td>
-                                        <td><?= $data['kota'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>penerbit : </td>
-                                        <td><?= $data['penerbit'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>sinopsis : </td>
-                                        <td><?= $data['sinopsis'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>stok : </td>
-                                        <td><?= $data['stok'] ?></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php
-                }
-            ?>
         </div>
     </div>
     
-    <!-- <div class="container text-center mt-4">
-        <table class="table table-striped table-hover mt-4">
-        <thread>
-            <tr>
-            <th scope="col">No</th>
-            <th scope="col">Penulis</th>
-            <th scope="col">Tahun</th>
-            <th scope="col">Judul</th>
-            <th scope="col">Kota</th>
-            <th scope="col">Penerbit</th>
-            <th scope="col">Cover</th>
-            <th scope="col">Sinopsis</th>
-            <th scope="col">Stok</th>
-            </tr>
-        </thread>
-        <tbody>
-            <?php
-            while($data = mysqli_fetch_array($take)){
-            
-            ?>
-            <tr>
-            <td><?= $data['id_buku'] ?> </td>
-            <td><?= $data['penulis'] ?> </td>
-            <td><?= $data['tahun'] ?> </td>
-            <td><?= $data['judul'] ?> </td>
-            <td><?= $data['kota'] ?> </td>
-            <td><?= $data['penerbit'] ?> </td>
-            <td>
-                <img src="cover/<?= $data['cover'] ?>" alt="" class="img-thumbnail" style="width: 50px;">  
-            </td>
-            <td><?= $data['sinopsis'] ?> </td>
-            <td><?= $data['stok'] ?> </td>
-            </tr>
-            <?php
-            }
-            ?>
-        </tbody>
-    </div> -->
 
     <!-- Bootstrap JS -->
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<<<<<<< HEAD
     <!-- Wow animate -->
     <script src="assets/WOW-master/dist/wow.js"></script>
     <script>
@@ -194,6 +128,18 @@ $take = mysqli_query($db,"SELECT * FROM buku");
                     }
                     )
                     wow.init();
+=======
+
+    <!-- Show Password -->
+    <script>
+        function showPassword(){
+            if(document.getElementById('show').checked){
+                document.getElementById('password').type = 'text';
+            }else{
+                document.getElementById('password').type = 'password';
+            }
+        }
+>>>>>>> e5fcfcb6c063874ee42f194a4710e8e616143b80
     </script>
 </body>
 </html>

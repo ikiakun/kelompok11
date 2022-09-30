@@ -1,0 +1,20 @@
+*.body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto Light' ;
+    scroll-behavior: smooth;
+}
+
+.main{
+    background-image: url(../assets/img/wallpaperbetter.jpg);
+    opacity: 1;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    background-position: center;
+
+}
