@@ -33,27 +33,6 @@ $take = mysqli_query($db,"SELECT * FROM petugas JOIN kelamin ON petugas.id_kelam
                                 <?php
                                     while($data = mysqli_fetch_array($take)){                           
                                 ?>
-                                <?php
-                                    $batas = 10;
-                                    if(isset($_GET['halaman'])){
-                                        $halaman = (int)$_GET['halaman'];
-                                    }else{
-                                        $halaman = 1;
-                                    }
-                                    if($halaman > 1){
-                                        $halaman_awal = ($halaman * $batas) - $batas;
-                                    }else{
-                                        $halaman_awal = 0;
-                                    }
-                                    $data = mysqli_query($db, "SELECT * FROM petugas JOIN kelamin ON petugas.id_kelamin = kelamin.id_kelamin");
-                                    $jumlah_data = mysqli_num_rows($data);
-                                    $total_halaman = ceil($jumlah_data/$batas);
-
-                                    $result = mysqli_query($db,"SELECT * FROM petugas JOIN kelamin ON petugas.id_kelamin = kelamin.id_kelamin
-                                                                ORDER BY nip LIMIT $halaman_awal,$batas");
-                                    $no = $halaman_awal+1;
-                                    while ($data = mysqli_fetch_array($result)) {
-                                ?>
                                 <tr>
                                     <td><?= $data['nip'] ?> </td>
                                     <td><?= $data['nama'] ?> </td>
@@ -61,13 +40,10 @@ $take = mysqli_query($db,"SELECT * FROM petugas JOIN kelamin ON petugas.id_kelam
                                     <td><?= $data['alamat'] ?> </td>
                                     <td><?= $data['password'] ?> </td>
                                     <td colspan="2">
-                                        <a href="editpetugas.php?nis=<?= $data['nis'] ?>" class ="btn btn-warning">edit</a>
-                                        <a href="deletepetugas.php?nis=<?= $data['nis'] ?>" class="btn btn-danger">hapus</a>
+                                        <a href="editpetugas.php?nip=<?= $data['nip'] ?>" class ="btn btn-warning">edit</a>
+                                        <a href="deletepetugas.php?nip=<?= $data['nip'] ?>" class="btn btn-danger">hapus</a>
                                     </td>
                                 </tr>
-                                <?php
-                                }
-                                ?>
                                 <?php
                                 }
                                 ?>

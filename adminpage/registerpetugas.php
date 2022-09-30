@@ -1,3 +1,14 @@
+<?php
+include ('config.php');
+// session_start();
+// if(!$_SESSION['username']){
+//   header('location: login.php');
+// } 
+// if($_SESSION['id_level'] == 2){
+//   header ('location: #.php');
+// }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,27 +28,31 @@
                 <!-- Kotak Register -->
                 <div class="card border-0 shadow">
                     <div class="card-body">
-                        <h1 class="text-center mb-3">Register</h1>
+                        <h1 class="text-center mb-3">Register Petugas</h1>
                         <form method="POST">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">NIP</label>
+                                <input type="text" class="form-control" id="nip" name="nip" placeholder="Masukkan NIP" autofocus required>
+                            </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Nama</label>
                                 <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama" autofocus required>
                             </div>
                             <div class="mb-3">
-                            <label class="form-label">Jenis Kelamin</label>
-                            <div class="dropdown">
-                            <select class="form-control" aria-label="Default select example" name="jenis_kelamin">
-                              <?php
-                                $kel = mysqli_query($db, "SELECT jenis_kelamin FROM petugas");
-                                while($data = mysqli_fetch_assoc($kel)) {
-                              ?>
-                            <option value="<?= $data['jenis_kelamin']?>"> <?= $data['jenis_kelamin'] ?> </option>
-                              <?php
-                                }
-                              ?>         
-                            </select>              
+                                <label class="form-label">Jenis Kelamin</label>
+                                <div class="dropdown">
+                                    <select class="form-control" aria-label="Default select example" name="id_kelamin">
+                                    <?php
+                                        $jur = mysqli_query($db, "SELECT * FROM kelamin");
+                                        while($data = mysqli_fetch_assoc($jur)) {
+                                    ?>
+                                    <option value="<?= $data['id_kelamin']?>"> <?= $data['kelamin'] ?> </option>
+                                    <?php
+                                        }
+                                    ?>         
+                                    </select>              
+                                </div>
                             </div>
-                        </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Alamat</label>
                                 <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat" required>
@@ -82,22 +97,26 @@
     <!-- Thor - mysqli konten -->
     <?php
         if(isset($_POST['submit'])){
-        $username = $_POST['nama'];
-        $password = md5($_POST['password']);
-        $password2 = md5($_POST['konfirm']);
+        $username = $_POST['nip'];
+        $nama = $_POST['nama'];
+        $kelamin = $_POST['id_kelamin'];
+        $alamat = $_POST['alamat'];
+        $password = $_POST['password'];
+        $password2 = $_POST['konfirm'];
+        
         
             if($password !== $password2){
                 echo "<script>alert('Password tidak cocok!')</script>";
             }elseif($password == $password2){
-            $query = mysqli_query($db, "SELECT * FROM user WHERE username = '$username'");
+            $query = mysqli_query($db, "SELECT * FROM petugas WHERE nip = '$username'");
             $data = mysqli_fetch_assoc($query);
                 if($data){
-                    echo "<script>alert('Nama sudah ada, KREATIFLAH!')</script>";
+                    echo "<script>alert('NIP sudah ada, KREATIFLAH!')</script>";
                 }else{
-                mysqli_query ($db, "INSERT INTO user(id_pangkat, username, password) 
-                VALUES(2, '$username', $password)");
+                mysqli_query ($db, "INSERT INTO petugas(nip, nama, id_kelamin, alamat, password, id_level) 
+                VALUES('$username', '$nama', '$kelamin', '$alamat', $password, 2)");
                 echo "<script>alert('Berhasil membuat akun, silakan login');
-                window.location='login.php';</script>";
+                window.location='../home.php';</script>";
                     }
             }
         }
