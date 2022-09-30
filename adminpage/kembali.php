@@ -9,8 +9,15 @@
     $data = mysqli_fetch_array($cari);
 
     if($data['tgl_pemgembalian'] > date('Y-m-d')){
-        echo "TIdak Didenda";
+        $denda = 0;
+        echo $denda;
     }else{
-        echo "Didenda";
+        $datetime1 = strtotime($data['tgl_pemgembalian']);
+        $datetime2 = strtotime(date('Y-m-d'));
+
+        $secs = $datetime2 - $datetime1;// == <seconds between the two times>
+        $days = $secs / 86400;
+
+        echo $days;
     }
     // echo $data['tgl_pemgembalian'] - date('Y-m-d');
