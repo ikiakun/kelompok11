@@ -1,3 +1,30 @@
+<?php
+include "config.php";
+
+session_start();
+if($_SESSION['username']){
+    header('location:#');
+}
+if (isset($_POST['submit'])) {
+    $username = $_POST['nis'];
+    $password = $_POST['password'];
+    
+    $sql = mysqli_query($db, "SELECT * FROM usersiswa WHERE nis = '$username'");
+    $data = mysqli_fetch_assoc($sql);
+    if($data['nis']){
+        if($data['password'] == $password){
+            $_SESSION['nis'] = $username;
+            echo "<script>alert('Login Berhasil');
+            window.location.replace('home.php');</script>";
+        }else{
+            echo "<script>alert('Password Salah')</script>";
+        }
+    }else{
+        echo "<script>alert('Username tidak terdaftar')</script>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +32,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="style/stylesiswa.css">
+    <link rel="stylesheet" href="stylesiswa.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
 </head>
