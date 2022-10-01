@@ -176,16 +176,16 @@
                 <h1 class="h2">Laporan Peminjaman</h1>
             </div>
             <div class="row">
-                <table class="table">
+                <table class="table text-center">
                     <thead>
                         <tr>
                             <th>NIS</th>
-                            <th>Nama</th>
+                            <th class="w-25">Nama</th>
                             <th>Kelas</th>
                             <th>Tanggal Peminjaman</th>
                             <th>Tanggal Pengembalian</th>
                             <th>Petugas</th>
-                            <th colspan="2">Action</th>
+                            <th colspan="2" class="w-25">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -199,7 +199,6 @@
                             <td><?= $data['tgl_pinj'] ?></td>
                             <td><?= $data['tgl_pengm'] ?></td>
                             <td><?= $data['nama_petugas'] ?></td>
-                            <td><a href="kembali.php?id=<?= $data['id'] ?>">Mengembalikan</a></td>
                             <td>
                                 <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal<?= $data['id'] ?>">
@@ -243,8 +242,8 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </td>
+                            <td><a href="pengembalian-buku.php?id=<?= $data['id'] ?>" class="btn btn-warning">Mengembalikan</a></td>
                         </tr>
                         <?php } ?>
                     </tbody>
