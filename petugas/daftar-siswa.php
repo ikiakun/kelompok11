@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
-    <title>Perpustakaan | Laporan Denda</title>
+    <title>Perpustakaan | Daftar Siswa</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/dashboard/">
 
@@ -82,6 +82,8 @@
 
         if(!$_SESSION){
             header('location: login.php');
+        }else if(!$_SESSION['level']){
+            header('location: ../siswa/index.php');
         }
 
         // Logout_M Ilham
@@ -93,8 +95,9 @@
         // Data User_M Ilham
         $nip = $_SESSION['nip'];
         $query = mysqli_query ($db, "SELECT * FROM petugas WHERE nip='$nip'");
-        $data = mysqli_fetch_assoc($query);
-    ?>
+        $data = mysqli_fetch_array($query);
+
+        ?>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Perpustakaan</a>
     <div class="navbar-nav">
@@ -128,13 +131,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link" aria-current="page" href="daftar-buku.php">
                         <i class="fa-solid fa-book-bookmark mx-2"></i>
                         Daftar Buku
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                    <a class="nav-link active" aria-current="page" href="daftar-siswa.php">
                         <i class="fa-solid fa-users mx-1"></i>
                         Daftar Siswa
                         </a>
@@ -146,8 +149,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="laporan-denda.php">
-                        <i class="fa-solid fa-file-excel mx-2"></i>
+                        <a class="nav-link" aria-current="page" href="laporan-denda.php">
+                        <i class="fa-solid fa-file-circle-xmark mx-2"></i>
                         Laporan Denda
                         </a>
                     </li>
@@ -171,35 +174,48 @@
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Laporan Denda</h1>
+                <h1 class="h2">Daftar Siswa</h1>
             </div>
-            <div class="row">
+            <a href="input-siswa.php" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> Tambah Data Siswa</a>
+            <div class="row mt-3">
                 <table class="table text-center">
                     <thead>
                         <tr>
-                            <th>NIS</th>
-                            <th class="w-25">Nama</th>
-                            <th>Kelas</th>
-                            <th>Tanggal Deadline</th>
-                            <th>Tanggal Pengembalian</th>
-                            <th>Denda</th>
-                            
+                            <th scope="col">NIS</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Jenis Kelamin</th>
+                            <th scope="col">Alamat</th>
+                            <th scope="col">Kelas</th>
+                            <th colspan="2" class="w-25">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php 
-
-                        $denda = mysqli_query($db, 'SELECT * FROM pengembalian JOIN peminjaman ON pengembalian.id_peminjaman = peminjaman.id_peminjaman JOIN siswa ON siswa.nis = peminjaman.nis JOIN detail_pengembalian ON pengembalian.id_pengembalian = detail_pengembalian.id_pengembalian JOIN kelas ON siswa.id_kelas = kelas.id_kelas WHERE pengembalian.denda != 0');
-
-                        while ($data = mysqli_fetch_array($denda)) {
+                        $take = mysqli_query($db,"SELECT * FROM siswa JOIN kelas ON siswa.id_kelas = kelas.id_kelas");
+                        
+                        while($data = mysqli_fetch_array($take)){
                         ?>
                         <tr>
                             <td><?= $data['nis'] ?></td>
                             <td><?= $data['nama'] ?></td>
+                            <td>
+                                <?php 
+                                    if($data['jenis_kelamin']=='L'){
+                                        echo "Laki-Laki";
+                                    }else{
+                                        echo "Perempuan";
+                                    }
+                                ?>
+                            </td>
+                            <td><?= $data['alamat'] ?></td>
                             <td><?= $data['nama_kelas'] ?></td>
-                            <td><?= $data['tgl_pemgembalian'] ?></td>
-                            <td><?= $data['tanggal_pengembalian'] ?></td>
-                            <td>Rp. <?= $data['denda'] ?></td>
+                            <td><a href="edit-siswa.php?id=<?= $data['nis'] ?>" class="btn btn-warning">Edit</a></td>
+                            <td>
+                                <form action="" method="GET">
+                                    <input type="hidden" value="<?= $data['nis'] ?>" id="nis" name="nis" hidden> 
+                                    <input type="submit" id="hapus" name="hapus" value="hapus" class="btn btn-danger">
+                                </form>
+                            </td>
                         </tr>
                         <?php } ?>
                     </tbody>
@@ -208,8 +224,19 @@
         </main>
     </div>
 </div>
+    <?php
+        if(isset($_GET['hapus'])){
+            $nis = $_GET['nis'];
+            $delete = mysqli_query($db, "DELETE FROM usersiswa WHERE nis='$nis'");
+            $delete1 = mysqli_query($db, "DELETE FROM siswa WHERE nis='$nis'");
 
-
+            if($delete && $delete1) { 
+                echo "<script>alert('Berhasil menghapus') </script>";
+            }else{
+                echo "<script>alert('Gagal menghapus') </script>";
+            }
+        }
+    ?>
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Bootstrap JS -->

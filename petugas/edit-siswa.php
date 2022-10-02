@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
-    <title>Perpustakaan | Daftar Peminjaman</title>
+    <title>Perpustakaan | Edit Siswa</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/dashboard/">
 
@@ -82,6 +82,8 @@
 
         if(!$_SESSION){
             header('location: login.php');
+        }else if(!$_SESSION['level']){
+            header('location: ../siswa/index.php');
         }
 
         // Logout_M Ilham
@@ -129,13 +131,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="daftar-buku.php">
+                        <a class="nav-link" aria-current="page" href="daftar-buku.php">
                         <i class="fa-solid fa-book-bookmark mx-2"></i>
                         Daftar Buku
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                    <a class="nav-link active" aria-current="page" href="daftar-siswa.php">
                         <i class="fa-solid fa-users mx-1"></i>
                         Daftar Siswa
                         </a>
@@ -171,103 +173,120 @@
         </nav>
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Daftar Buku</h1>
-            </div>
-            <a href="input-buku.php" class="btn btn-primary"><i class="fa-regular fa-plus"></i> Tambah Buku Baru</a>
-            <div class="row mt-3">
-                <table class="table text-center">
-                    <thead>
-                        <tr>
-                            <th>ID Buku</th>
-                            <th>Judul</th>
-                            <th>Penulis</th>
-                            <th>Penerbit</th>
-                            <th>Tahun</th>
-                            <th>Kota</th>
-                            <th>Stok</th>
-                            <th colspan="3" class="w-25">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                        $take = mysqli_query($db,"SELECT * FROM buku");
-                        
-                        while($data = mysqli_fetch_array($take)){
-                        ?>
-                        <tr>
-                            <td><?= $data['id_buku'] ?></td>
-                            <td><?= $data['judul'] ?></td>
-                            <td><?= $data['penulis'] ?></td>
-                            <td><?= $data['penerbit'] ?></td>
-                            <td><?= $data['tahun'] ?></td>
-                            <td><?= $data['kota'] ?></td>
-                            <td><?= $data['stok'] ?></td>
-                            <td>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal<?= $data['id_buku'] ?>">
-                                Detail
-                                </button>
+            <!-- Thor - Konten mysql -->
+            <?php
+                $id = $_GET['id'];
+                $take = mysqli_query($db, "SELECT * FROM siswa JOIN kelas ON siswa.id_kelas = kelas.id_kelas JOIN usersiswa ON siswa.nis = usersiswa.nis WHERE siswa.nis = $id");
+                $data1 = mysqli_fetch_assoc($take);
+            ?>
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="Modal<?= $data['id_buku'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel"><?= $data['judul'] ?></h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="card mb-3">
-                                                            <div class="row g-0">
-                                                                <div class="col-md-4">
-                                                                <img src="../assets/cover/<?= $data['cover'] ?>" class="img-fluid rounded-start" alt="...">
-                                                                </div>
-                                                                <div class="col-md-8">
-                                                                    <div class="card-body">
-                                                                        <h5 class="card-title">Sinopsis</h5>
-                                                                        <p class="card-text"><?= $data['sinopsis'] ?></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><a href="edit-buku.php?id=<?= $data['id_buku'] ?>" class="btn btn-warning">Edit</a></td>
-                            <td>
-                                <form action="" method="GET">
-                                    <input type="text" value="<?= $data['id_buku'] ?>" id="id" name="id" hidden> 
-                                    <input type="submit" id="hapus" name="hapus" value="hapus" class="btn btn-danger">
-                                </form>
-                            </td>
-                        </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Edit Data <?= $data1['nama'] ?></h1>
+            </div>
+
+            <div class="row mt-3">
+                <form action="" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nama Siswa</label>
+                        <input type="text" name="nama" id="nama" class="form-control w-50" placeholder="Masukkan Nama Siswa..." value="<?= $data1['nama'] ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Jenis Kelamin : </label>
+                        <input class="form-check-input" type="radio" name="jk" value="L" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            Laki-laki
+                        </label>
+                        <input class="form-check-input" type="radio" name="jk" value="P">
+                        <label class="form-check-label" for="exampleRadios1">
+                            Perempuan
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Alamat : </label>
+                        <input type="text" name="alamat" class="form-control w-50" placeholder="Masukkan Alamat..." value="<?= $data1['alamat'] ?>" required>
+                    </div>
+                    <div class="mb-3">
+                    <label class="form-label fw-bold">Kelas :</label>
+                        <div class="dropdown">
+                            <select class="form-control w-50" aria-label="Default select example" name="id_kelas">
+                                <?php
+                                    $kel = mysqli_query($db, "SELECT * FROM kelas");
+                                    while($data = mysqli_fetch_assoc($kel)) {
+                                ?>
+                                <option value="<?= $data['id_kelas']?>"> <?= $data['nama_kelas'] ?> </option>
+                                <?php
+                                    }
+                                ?>         
+                            </select>              
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Password : </label>
+                        <input type="password" id="password" name="password" class="form-control w-50" placeholder="Masukkan Password..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Konfirmasi Password : </label>
+                        <input type="password" id="konfirmasi" name="konfirmasi" class="form-control w-50" placeholder="Konfirmasi Password..." required>
+                    </div>
+                    <div class="checkbox mb-3">
+                        <label class="text-secondary">
+                            <input type="checkbox" id="show" onclick="showPassword()"> Show Password
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-success" name="submit" id="submit">Edit Data Siswa</button>
+                </form>
             </div>
         </main>
+
     </div>
 </div>
     <?php
-        if(isset($_GET['hapus'])){
-            $id = $_GET['id'];
-            $delete = mysqli_query($db, "DELETE FROM buku WHERE id_buku='$id'");
+        if(isset($_POST['submit'])){
+            $nama = $_POST['nama'];
+            $kelam = $_POST['jk'];
+            $alamat = $_POST['alamat'];
+            $kelas = $_POST['id_kelas'];
 
-            if($delete) { 
-                echo "<script>alert('Berhasil menghapus') </script>";
+            $pass = $_POST['password'];
+            $konfirm = $_POST['konfirmasi'];
+
+            if($pass == $konfirm){
+            $query = mysqli_query ($db, "UPDATE siswa SET nama = '$nama', jenis_kelamin = '$kelam', alamat = '$alamat', id_kelas = '$kelas' WHERE nis = $id");
+            
+                if($query){
+                    $update = mysqli_query($db, "UPDATE usersiswa SET password = '$pass' WHERE nis = $id");
+                    
+                    if($update){
+                        echo "<script>alert('Berhasil!');
+                        document.location = 'daftar-siswa.php';
+                        </script>";
+                    }else{
+                        echo "<script>alert('Gagal!');
+                        document.location = 'daftar-siswa.php';
+                        </script>";
+                    }
+                }else{
+                    echo "<script>alert('Gagal Menambahkan Data')</script>";;
+                }
             }else{
-                echo "<script>alert('Gagal menghapus') </script>";
+                echo "<script>alert('Password dan Konfirmasi Tidak Sama!')</script>";
             }
         }
     ?>
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Show Password -->
+    <script>
+        function showPassword(){
+            if(document.getElementById('show').checked){
+                document.getElementById('password').type = 'text';
+                document.getElementById('konfirmasi').type = 'text';
+            }else{
+                document.getElementById('password').type = 'password';
+                document.getElementById('konfirmasi').type = 'password';
+            }
+        }
+    </script>
 
     <!-- Bootstrap JS -->
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>

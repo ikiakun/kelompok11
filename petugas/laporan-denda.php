@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
-    <title>Perpustakaan | Daftar Peminjaman</title>
+    <title>Perpustakaan | Laporan Denda</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/dashboard/">
 
@@ -82,6 +82,8 @@
 
         if(!$_SESSION){
             header('location: login.php');
+        }else if(!$_SESSION['level']){
+            header('location: ../siswa/index.php');
         }
 
         // Logout_M Ilham
@@ -93,9 +95,8 @@
         // Data User_M Ilham
         $nip = $_SESSION['nip'];
         $query = mysqli_query ($db, "SELECT * FROM petugas WHERE nip='$nip'");
-        $data = mysqli_fetch_array($query);
-
-        ?>
+        $data = mysqli_fetch_assoc($query);
+    ?>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Perpustakaan</a>
     <div class="navbar-nav">
@@ -141,13 +142,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="daftar-peminjaman.php">
+                        <a class="nav-link" aria-current="page" href="daftar-peminjaman.php">
                         <i class="fa-solid fa-file-lines mx-2"></i>
                         Laporan Peminjaman
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link active" aria-current="page" href="laporan-denda.php">
                         <i class="fa-solid fa-file-excel mx-2"></i>
                         Laporan Denda
                         </a>
@@ -172,7 +173,7 @@
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Laporan Peminjaman</h1>
+                <h1 class="h2">Laporan Denda</h1>
             </div>
             <div class="row">
                 <table class="table text-center">
@@ -181,85 +182,26 @@
                             <th>NIS</th>
                             <th class="w-25">Nama</th>
                             <th>Kelas</th>
-                            <th>Tanggal Peminjaman</th>
+                            <th>Tanggal Deadline</th>
                             <th>Tanggal Pengembalian</th>
-                            <th>Petugas</th>
-                            <th colspan="2" class="w-25">Action</th>
+                            <th>Denda</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         <?php 
-                        $pinjam = mysqli_query($db, 'SELECT siswa.nis as nis, peminjaman.id_peminjaman as id, siswa.nama as nama_siswa, kelas.nama_kelas as kelas, peminjaman.tgl_peminjaman as tgl_pinj, peminjaman.tgl_pemgembalian as tgl_pengm, petugas.nama as nama_petugas FROM  peminjaman JOIN siswa ON peminjaman.nis = siswa.nis JOIN petugas ON peminjaman.nip = petugas.nip JOIN kelas ON siswa.id_kelas = kelas.id_kelas');
-    
-                            while ($data = mysqli_fetch_array($pinjam)) {
+
+                        $denda = mysqli_query($db, 'SELECT * FROM pengembalian JOIN peminjaman ON pengembalian.id_peminjaman = peminjaman.id_peminjaman JOIN siswa ON siswa.nis = peminjaman.nis JOIN detail_pengembalian ON pengembalian.id_pengembalian = detail_pengembalian.id_pengembalian JOIN kelas ON siswa.id_kelas = kelas.id_kelas WHERE pengembalian.denda != 0');
+
+                        while ($data = mysqli_fetch_array($denda)) {
                         ?>
                         <tr>
                             <td><?= $data['nis'] ?></td>
-                            <td><?= $data['nama_siswa'] ?></td>
-                            <td><?= $data['kelas'] ?></td>
-                            <td><?= $data['tgl_pinj'] ?></td>
-                            <td><?= $data['tgl_pengm'] ?></td>
-                            <td><?= $data['nama_petugas'] ?></td>
-                            <td>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal<?= $data['id'] ?>">
-                                Details
-                                </button>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="Modal<?= $data['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Details Peminjaman <?= $data['nama_siswa'] ?></h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <?php
-                                                            $detail = mysqli_query($db, "SELECT * FROM detail_peminjaman JOIN peminjaman ON detail_peminjaman.id_peminjaman = peminjaman.id_peminjaman JOIN buku ON detail_peminjaman.id_buku = buku.id_buku WHERE detail_peminjaman.id_peminjaman = '$data[id]'");
-                                                            
-                                                            while ($det_buku = mysqli_fetch_array($detail)) {
-                                                        ?>
-                                                        <div class="card mb-3">
-                                                            <div class="row g-0">
-                                                                <div class="col-md-4">
-                                                                <img src="../assets/img/wallpaperbetter.jpg" class="img-fluid rounded-start" alt="...">
-                                                                </div>
-                                                                <div class="col-md-8">
-                                                                    <div class="card-body">
-                                                                        <h5 class="card-title"><?= $det_buku['judul'] ?></h5>
-                                                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                                                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <?php } ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <?php 
-                                    $kembalian = mysqli_query ($db, "SELECT * FROM pengembalian WHERE id_peminjaman='$data[id]'");
-                                    $data1 = mysqli_fetch_array($kembalian);
-
-
-                                            
-                                if (!$data1) {
-                                    ?>
-                                <a href="pengembalian-buku.php?id=<?= $data['id'] ?>" class="btn btn-primary">Mengembalikan</a>
-                                <?php 
-                                    }else{
-                                ?>
-                                <button type="button" class="btn btn-primary" disabled>Sudah Mengembalikan</button>
-                                <?php }?>
-                            </td>
+                            <td><?= $data['nama'] ?></td>
+                            <td><?= $data['nama_kelas'] ?></td>
+                            <td><?= $data['tgl_pemgembalian'] ?></td>
+                            <td><?= $data['tanggal_pengembalian'] ?></td>
+                            <td>Rp. <?= $data['denda'] ?></td>
                         </tr>
                         <?php } ?>
                     </tbody>

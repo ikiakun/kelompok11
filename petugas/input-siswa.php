@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
-    <title>Perpustakaan | Dashboard</title>
+    <title>Perpustakaan | Tambah Siswa</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/dashboard/">
 
@@ -82,6 +82,8 @@
 
         if(!$_SESSION){
             header('location: login.php');
+        }else if(!$_SESSION['level']){
+            header('location: ../siswa/index.php');
         }
 
         // Logout_M Ilham
@@ -93,8 +95,9 @@
         // Data User_M Ilham
         $nip = $_SESSION['nip'];
         $query = mysqli_query ($db, "SELECT * FROM petugas WHERE nip='$nip'");
-        $data = mysqli_fetch_assoc($query);
-    ?>
+        $data = mysqli_fetch_array($query);
+
+        ?>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Perpustakaan</a>
     <div class="navbar-nav">
@@ -116,7 +119,7 @@
                 </h5>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="dashboard.php">
+                        <a class="nav-link" aria-current="page" href="dashboard.php">
                         <i class="fa-solid fa-gauge mx-2"></i>
                         Dashboard
                         </a>
@@ -134,7 +137,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                    <a class="nav-link active" aria-current="page" href="daftar-siswa.php">
                         <i class="fa-solid fa-users mx-1"></i>
                         Daftar Siswa
                         </a>
@@ -171,15 +174,115 @@
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Dashboard</h1>
+                <h1 class="h2">Tambah Data Siswa</h1>
             </div>
-            
+            <div class="row mt-3">
+                <form action="" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nama Siswa</label>
+                        <input type="text" name="nama" id="nama" class="form-control w-50" placeholder="Masukkan Nama Siswa..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Jenis Kelamin : </label>
+                        <input class="form-check-input" type="radio" name="jk" value="L" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            Laki-laki
+                        </label>
+                        <input class="form-check-input" type="radio" name="jk" value="P">
+                        <label class="form-check-label" for="exampleRadios1">
+                            Perempuan
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Alamat : </label>
+                        <input type="text" name="alamat" class="form-control w-50" placeholder="Masukkan Alamat..." required>
+                    </div>
+                    <div class="mb-3">
+                    <label class="form-label fw-bold">Kelas :</label>
+                        <div class="dropdown">
+                            <select class="form-control w-50" aria-label="Default select example" name="id_kelas">
+                                <?php
+                                    $kel = mysqli_query($db, "SELECT * FROM kelas");
+                                    while($data = mysqli_fetch_assoc($kel)) {
+                                ?>
+                                <option value="<?= $data['id_kelas']?>"> <?= $data['nama_kelas'] ?> </option>
+                                <?php
+                                    }
+                                ?>         
+                            </select>              
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Password : </label>
+                        <input type="password" id="password" name="password" class="form-control w-50" placeholder="Masukkan Password..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Konfirmasi Password : </label>
+                        <input type="password" id="konfirmasi" name="konfirmasi" class="form-control w-50" placeholder="Konfirmasi Password..." required>
+                    </div>
+                    <div class="checkbox mb-3">
+                        <label class="text-secondary">
+                            <input type="checkbox" id="show" onclick="showPassword()"> Show Password
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-success" name="submit" id="submit">Tambah Data Siswa</button>
+                </form>
+            </div>
         </main>
+
     </div>
 </div>
+    <?php
+        if(isset($_POST['submit'])){
+            $nama = $_POST['nama'];
+            $kelam = $_POST['jk'];
+            $alamat = $_POST['alamat'];
+            $kelas = $_POST['id_kelas'];
 
+            $pass = $_POST['password'];
+            $konfirm = $_POST['konfirmasi'];
 
+            if($pass == $konfirm){
+            $query = mysqli_query ($db, "INSERT INTO siswa VALUES('','$nama', '$kelam', '$alamat', $kelas)");
+            
+                if($query){
+                    $cari = mysqli_query($db, "SELECT * FROM siswa WHERE nama = '$nama' and jenis_kelamin = '$kelam' and alamat = '$alamat' and id_kelas = '$kelas'");
+                    $data = mysqli_fetch_array($cari);
+                    $id = $data[0];
+
+                    $input_pass = mysqli_query($db, "INSERT INTO usersiswa VALUES ('','$id','$pass')");
+
+                    if($input_pass){
+                        echo "<script>alert('Berhasil!');
+                        document.location = 'daftar-siswa.php';
+                        </script>";
+                    }else{
+                        echo "<script>alert('Gagal!');
+                        document.location = 'daftar-siswa.php';
+                        </script>";
+                    }
+                }else{
+                    echo "<script>alert('Gagal Menambahkan Data')</script>";;
+                }
+            }else{
+                echo "<script>alert('Password dan Konfirmasi Tidak Sama!')</script>";
+            }
+        }
+    ?>
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Show Password -->
+    <script>
+        function showPassword(){
+            if(document.getElementById('show').checked){
+                document.getElementById('password').type = 'text';
+                document.getElementById('konfirmasi').type = 'text';
+            }else{
+                document.getElementById('password').type = 'password';
+                document.getElementById('konfirmasi').type = 'password';
+            }
+        }
+    </script>
 
     <!-- Bootstrap JS -->
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>

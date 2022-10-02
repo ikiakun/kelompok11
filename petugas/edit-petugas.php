@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
-    <title>Perpustakaan | Daftar Peminjaman</title>
+    <title>Perpustakaan | Edit</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/dashboard/">
 
@@ -82,6 +82,10 @@
 
         if(!$_SESSION){
             header('location: login.php');
+        }else if(!$_SESSION['level']){
+            header('location: ../siswa/index.php');
+        }else if($_SESSION['level'] != 1){
+            header('location: dashboard.php');
         }
 
         // Logout_M Ilham
@@ -129,13 +133,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="daftar-buku.php">
+                        <a class="nav-link" aria-current="page" href="daftar-buku.php">
                         <i class="fa-solid fa-book-bookmark mx-2"></i>
                         Daftar Buku
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                    <a class="nav-link" aria-current="page" href="daftar-siswa.php">
                         <i class="fa-solid fa-users mx-1"></i>
                         Daftar Siswa
                         </a>
@@ -157,7 +161,7 @@
                         if($_SESSION['level'] == 1){
                     ?>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link active" aria-current="page" href="daftar-petugas.php">
                         <i class="fa-solid fa-users-viewfinder mx-1"></i>
                         Daftar Petugas
                         </a>
@@ -171,80 +175,94 @@
         </nav>
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <!-- Thor - Konten mysql -->
+            <?php
+                $id = $_GET['id'];
+                $take = mysqli_query($db, "SELECT * FROM petugas WHERE nip = $id");
+                $data1 = mysqli_fetch_assoc($take);
+            ?>
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Tambah Buku Baru</h1>
+                <h1 class="h2">Edit Data Petugas <?= $data1['nama'] ?></h1>
             </div>
             <div class="row mt-3">
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="" method="POST">
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label fw-bold">Penulis Buku : </label>
-                        <input type="text" name="penulis" class="form-control w-50" placeholder="Masukkan Nama Penulis Buku..." required>
+                        <label class="form-label fw-bold">Nama petugas</label>
+                        <input type="text" name="nama" id="nama" class="form-control w-50" placeholder="Masukkan Nama petugas..." value="<?= $data1['nama'] ?>" required>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label fw-bold">Tahun : </label>
-                        <input type="number" min="1900" name="tahun" class="form-control w-50" placeholder="Masukkan Tahun..." required>
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Jenis Kelamin : </label>
+                        <input class="form-check-input" type="radio" name="jk" value="L" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            Laki-laki
+                        </label>
+                        <input class="form-check-input" type="radio" name="jk" value="P">
+                        <label class="form-check-label" for="exampleRadios1">
+                            Perempuan
+                        </label>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label fw-bold">Judul Buku : </label>
-                        <input type="text" name="judul" class="form-control w-50" placeholder="Masukkan Judul Buku..." required>
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Alamat : </label>
+                        <input type="text" name="alamat" class="form-control w-50" placeholder="Masukkan Alamat..." value="<?= $data1['alamat'] ?>" required>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label fw-bold">Kota : </label>
-                        <input type="text" name="kota" class="form-control w-50" placeholder="Masukkan Kota..." required>
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Password : </label>
+                        <input type="password" id="password" name="password" class="form-control w-50" placeholder="Masukkan Password..." required>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label fw-bold">Penerbit : </label>
-                        <input type="text" name="penerbit" class="form-control w-50" placeholder="Masukkan Penerbit..." required>
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Konfirmasi Password : </label>
+                        <input type="password" id="konfirmasi" name="konfirmasi" class="form-control w-50" placeholder="Konfirmasi Password..." required>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label fw-bold">Cover : </label>
-                        <input type="file" class="form-control w-50" id="cover" name="cover">
+                    <div class="checkbox mb-3">
+                        <label class="text-secondary">
+                            <input type="checkbox" id="show" onclick="showPassword()"> Show Password
+                        </label>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label fw-bold">Sinopsis : </label>
-                        <input type="text" name="sinopsis" class="form-control w-50" placeholder="Masukkan Sinopsis..." required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label fw-bold">Stok : </label>
-                        <input type="number" min="1" name="stok" class="form-control w-50" placeholder="Masukkan Stok Buku..." required>
-                    </div>
-                    <button type="submit" class="btn btn-success" name="submit" id="submit">Tambah Data Buku</button>
+                    <button type="submit" class="btn btn-success" name="submit" id="submit">Tambah Data Petugas</button>
                 </form>
             </div>
         </main>
+
     </div>
 </div>
 
+    <!-- Thor - mysqli konten -->
+    <?php
+        if(isset($_POST['submit'])){
+            $nama = $_POST['nama'];
+            $kelamin = $_POST['jk'];
+            $alamat = $_POST['alamat'];
+            $password = $_POST['password'];
+            $password2 = $_POST['konfirmasi'];
 
-<?php
-// Thor
-if(isset($_POST['submit'])){
-    $penulis = $_POST['penulis'];
-    $tahun = $_POST['tahun'];
-    $judul = $_POST['judul'];
-    $kota = $_POST['kota'];
-    $penerbit = $_POST['penerbit'];
+                if($password == $password2) {
+                    $query = mysqli_query($db, "UPDATE petugas SET nama = '$nama', jenis_kelamin = '$kelamin', alamat = '$alamat', password = '$password' WHERE nip = $id");
 
-    $cover = $_FILES['cover']['name'];
-    $lokasi = $_FILES['cover']['tmp_name'];
-    $upload = move_uploaded_file($lokasi, "../assets/cover/". $cover);
+                    if($query){
+                        echo "<script>alert('Berhasil Mengubah Data Petugas');
+                            window.location='daftar-petugas.php';</script>";
+                    }else{
+                        echo "<script>alert('Gagal Mengubah Data Petugas')</script>";
+                    }
+                    
+                }else{
+                    echo "<script>alert('Password tidak cocok!')</script>";
+                }
+            }
+        ?>
 
-    $sinopsis = $_POST['sinopsis'];
-    $stok = $_POST['stok'];
-
-    $query = mysqli_query ($db, "INSERT INTO buku (id_buku, penulis, tahun, judul, kota, penerbit, cover, sinopsis, stok) VALUES('', '$penulis', $tahun, '$judul', '$kota', '$penerbit', '$cover', '$sinopsis', '$stok')");
-
-    if($query){
-        echo "<script>alert('Berhasil!');
-        document.location = 'daftar-buku.php';
-        </script>";
-    }else{
-        echo "<script>alert('Gagal!');
-        document.location = 'input-buku.php';
-        </script>";
-    }
-}
-?>
+    <!-- Show Password -->
+    <script>
+        function showPassword(){
+            if(document.getElementById('show').checked){
+                document.getElementById('password').type = 'text';
+                document.getElementById('konfirmasi').type = 'text';
+            }else{
+                document.getElementById('password').type = 'password';
+                document.getElementById('konfirmasi').type = 'password';
+            }
+        }
+    </script>
 
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
