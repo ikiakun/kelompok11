@@ -88,7 +88,7 @@
         if(isset($_POST['logout'])){
                 session_destroy();
                 header('Location: login.php');
-            }
+        }
         
         // Data User_M Ilham
         $nip = $_SESSION['nip'];
@@ -170,103 +170,105 @@
             </div>
         </nav>
 
+        <!-- Thor - Konten mysql -->
+        <?php
+            $id = $_GET['id'];
+            $take = mysqli_query($db, "SELECT * FROM buku WHERE id_buku = $id");
+            $data1 = mysqli_fetch_assoc($take);
+        ?>
+
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Daftar Buku</h1>
+                <h1 class="h2">Edit Buku <?= $data1['judul'] ?></h1>
             </div>
-            <a href="input-buku.php" class="btn btn-primary"><i class="fa-regular fa-plus"></i> Tambah Buku Baru</a>
-            <div class="row mt-3">
-                <table class="table text-center">
-                    <thead>
-                        <tr>
-                            <th>ID Buku</th>
-                            <th>Judul</th>
-                            <th>Penulis</th>
-                            <th>Penerbit</th>
-                            <th>Tahun</th>
-                            <th>Kota</th>
-                            <th>Stok</th>
-                            <th colspan="3" class="w-25">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                        $take = mysqli_query($db,"SELECT * FROM buku");
-                        
-                        while($data = mysqli_fetch_array($take)){
-                        ?>
-                        <tr>
-                            <td><?= $data['id_buku'] ?></td>
-                            <td><?= $data['judul'] ?></td>
-                            <td><?= $data['penulis'] ?></td>
-                            <td><?= $data['penerbit'] ?></td>
-                            <td><?= $data['tahun'] ?></td>
-                            <td><?= $data['kota'] ?></td>
-                            <td><?= $data['stok'] ?></td>
-                            <td>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal<?= $data['id_buku'] ?>">
-                                Detail
-                                </button>
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="Modal<?= $data['id_buku'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel"><?= $data['judul'] ?></h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="card mb-3">
-                                                            <div class="row g-0">
-                                                                <div class="col-md-4">
-                                                                <img src="../assets/cover/<?= $data['cover'] ?>" class="img-fluid rounded-start" alt="...">
-                                                                </div>
-                                                                <div class="col-md-8">
-                                                                    <div class="card-body">
-                                                                        <h5 class="card-title">Sinopsis</h5>
-                                                                        <p class="card-text"><?= $data['sinopsis'] ?></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><a href="edit-buku.php?id=<?= $data['id_buku'] ?>" class="btn btn-warning">Edit</a></td>
-                            <td>
-                                <form action="" method="GET">
-                                    <input type="text" value="<?= $data['id_buku'] ?>" id="id" name="id" hidden> 
-                                    <input type="submit" id="hapus" name="hapus" value="hapus" class="btn btn-danger">
-                                </form>
-                            </td>
-                        </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+            <div class="row mt-3">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Penulis Buku : </label>
+                        <input type="text" name="penulis" class="form-control w-50" placeholder="Masukkan Nama Penulis Buku..." value="<?= $data1['penulis'] ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Tahun : </label>
+                        <input type="number" min="1900" name="tahun" class="form-control w-50" placeholder="Masukkan Tahun..." value="<?= $data1['tahun'] ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Judul Buku : </label>
+                        <input type="text" name="judul" class="form-control w-50" placeholder="Masukkan Judul Buku..." value="<?= $data1['judul'] ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Kota : </label>
+                        <input type="text" name="kota" class="form-control w-50" placeholder="Masukkan Kota..." value="<?= $data1['kota'] ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Penerbit : </label>
+                        <input type="text" name="penerbit" class="form-control w-50" placeholder="Masukkan Penerbit..." value="<?= $data1['penerbit'] ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Cover : </label>
+                        <input type="file" class="form-control w-50" id="ganticover" name="ganticover">
+                        <input type="hidden" name="namacover" class="form-control w-50" placeholder="Masukkan Sinopsis..." value="<?= $data1['cover'] ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Sinopsis : </label>
+                        <input type="text" name="sinopsis" class="form-control w-50" placeholder="Masukkan Sinopsis..." value="<?= $data1['sinopsis'] ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Stok : </label>
+                        <input type="number" min="1" name="stok" class="form-control w-50" placeholder="Masukkan Stok Buku..." value="<?= $data1['stok'] ?>" required>
+                    </div>
+                    <button type="submit" class="btn btn-success mb-3" name="submit" id="submit">Edit Data Buku</button>
+                </form>
             </div>
         </main>
     </div>
 </div>
-    <?php
-        if(isset($_GET['hapus'])){
-            $id = $_GET['id'];
-            $delete = mysqli_query($db, "DELETE FROM buku WHERE id_buku='$id'");
 
-            if($delete) { 
-                echo "<script>alert('Berhasil menghapus') </script>";
-            }else{
-                echo "<script>alert('Gagal menghapus') </script>";
+
+<?php
+// Thor
+if(isset($_POST['submit'])){
+    $penulis = $_POST['penulis'];
+    $tahun = $_POST['tahun'];
+    $judul = $_POST['judul'];
+    $kota = $_POST['kota'];
+    $penerbit = $_POST['penerbit'];
+    $sinopsis = $_POST['sinopsis'];
+    $stok = $_POST['stok'];
+    
+    if($_FILES['ganticover']['name']){
+        $cover = $_FILES['ganticover']['name'];
+        $lokasi = $_FILES['ganticover']['tmp_name'];
+
+        if(array_key_exists('namacover', $_POST)){
+            $filename = $_POST['namacover'];
+            
+            if(file_exists("../assets/cover/".$filename)){
+                unlink("../assets/cover/".$filename);
             }
         }
-    ?>
+
+        $upload = move_uploaded_file($lokasi, "../assets/cover/". $cover);
+
+        $query = mysqli_query ($db, "UPDATE buku SET penulis = '$penulis', tahun = '$tahun', judul = '$judul', kota = '$kota', penerbit = '$penerbit', cover = '$cover', sinopsis = '$sinopsis', stok = '$stok' WHERE id_buku = '$id'");
+    
+        if($query){
+            echo "<script>alert('Berhasil!')</script>";
+        }else{
+            echo "<script>alert('Gagal!')</script>";
+        }
+    }else{
+        $query = mysqli_query($db, "UPDATE buku SET penulis = '$penulis', tahun = '$tahun', judul = '$judul', kota = '$kota', penerbit = '$penerbit', sinopsis = '$sinopsis', stok = '$stok' WHERE id_buku = '$id'");
+    
+        if($query){
+            echo "<script>alert('Berhasil!')</script>";
+        }else{
+            echo "<script>alert('Gagal!')</script>";
+        }
+    }
+}
+?>
+
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Bootstrap JS -->
