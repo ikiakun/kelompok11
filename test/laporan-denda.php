@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
-    <title>Perpustakaan | Dashboard</title>
+    <title>Perpustakaan | Laporan Denda</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/dashboard/">
 
@@ -116,7 +116,7 @@
                 </h5>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="dashboard.php">
+                        <a class="nav-link" aria-current="page" href="dashboard.php">
                         <i class="fa-solid fa-gauge mx-2"></i>
                         Dashboard
                         </a>
@@ -128,7 +128,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="daftar-buku.php">
+                        <a class="nav-link" aria-current="page" href="#">
                         <i class="fa-solid fa-book-bookmark mx-2"></i>
                         Daftar Buku
                         </a>
@@ -146,8 +146,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="laporan-denda.php">
-                        <i class="fa-solid fa-file-circle-xmark mx-2"></i>
+                        <a class="nav-link active" aria-current="page" href="laporan-denda.php">
+                        <i class="fa-solid fa-file-excel mx-2"></i>
                         Laporan Denda
                         </a>
                     </li>
@@ -171,9 +171,40 @@
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Dashboard</h1>
+                <h1 class="h2">Laporan Denda</h1>
             </div>
-            
+            <div class="row">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th>NIS</th>
+                            <th class="w-25">Nama</th>
+                            <th>Kelas</th>
+                            <th>Tanggal Deadline</th>
+                            <th>Tanggal Pengembalian</th>
+                            <th>Denda</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+
+                        $denda = mysqli_query($db, 'SELECT * FROM pengembalian JOIN peminjaman ON pengembalian.id_peminjaman = peminjaman.id_peminjaman JOIN siswa ON siswa.nis = peminjaman.nis JOIN detail_pengembalian ON pengembalian.id_pengembalian = detail_pengembalian.id_pengembalian JOIN kelas ON siswa.id_kelas = kelas.id_kelas WHERE pengembalian.denda != 0');
+
+                        while ($data = mysqli_fetch_array($denda)) {
+                        ?>
+                        <tr>
+                            <td><?= $data['nis'] ?></td>
+                            <td><?= $data['nama'] ?></td>
+                            <td><?= $data['nama_kelas'] ?></td>
+                            <td><?= $data['tgl_pemgembalian'] ?></td>
+                            <td><?= $data['tanggal_pengembalian'] ?></td>
+                            <td>Rp. <?= $data['denda'] ?></td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
         </main>
     </div>
 </div>

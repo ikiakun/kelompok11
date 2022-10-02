@@ -95,8 +95,7 @@
         $query = mysqli_query ($db, "SELECT * FROM petugas WHERE nip='$nip'");
         $data = mysqli_fetch_array($query);
 
-        $pinjam = mysqli_query($db, 'SELECT siswa.nis as nis, peminjaman.id_peminjaman as id, siswa.nama as nama_siswa, kelas.nama_kelas as kelas, peminjaman.tgl_peminjaman as tgl_pinj, peminjaman.tgl_pemgembalian as tgl_pengm, petugas.nama as nama_petugas FROM  peminjaman JOIN siswa ON peminjaman.nis = siswa.nis JOIN petugas ON peminjaman.nip = petugas.nip JOIN kelas ON siswa.id_kelas = kelas.id_kelas');
-    ?>
+        ?>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Perpustakaan</a>
     <div class="navbar-nav">
@@ -190,6 +189,8 @@
                     </thead>
                     <tbody>
                         <?php 
+                        $pinjam = mysqli_query($db, 'SELECT siswa.nis as nis, peminjaman.id_peminjaman as id, siswa.nama as nama_siswa, kelas.nama_kelas as kelas, peminjaman.tgl_peminjaman as tgl_pinj, peminjaman.tgl_pemgembalian as tgl_pengm, petugas.nama as nama_petugas FROM  peminjaman JOIN siswa ON peminjaman.nis = siswa.nis JOIN petugas ON peminjaman.nip = petugas.nip JOIN kelas ON siswa.id_kelas = kelas.id_kelas');
+    
                             while ($data = mysqli_fetch_array($pinjam)) {
                         ?>
                         <tr>

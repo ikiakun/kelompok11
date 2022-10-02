@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
-    <title>Perpustakaan | Dashboard</title>
+    <title>Perpustakaan | Daftar Peminjaman</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/dashboard/">
 
@@ -93,8 +93,9 @@
         // Data User_M Ilham
         $nip = $_SESSION['nip'];
         $query = mysqli_query ($db, "SELECT * FROM petugas WHERE nip='$nip'");
-        $data = mysqli_fetch_assoc($query);
-    ?>
+        $data = mysqli_fetch_array($query);
+
+        ?>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Perpustakaan</a>
     <div class="navbar-nav">
@@ -116,7 +117,7 @@
                 </h5>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="dashboard.php">
+                        <a class="nav-link" aria-current="page" href="dashboard.php">
                         <i class="fa-solid fa-gauge mx-2"></i>
                         Dashboard
                         </a>
@@ -128,7 +129,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="daftar-buku.php">
+                        <a class="nav-link active" aria-current="page" href="daftar-buku.php">
                         <i class="fa-solid fa-book-bookmark mx-2"></i>
                         Daftar Buku
                         </a>
@@ -171,13 +172,79 @@
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Dashboard</h1>
+                <h1 class="h2">Tambah Buku Baru</h1>
             </div>
-            
+            <div class="row mt-3">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Penulis Buku : </label>
+                        <input type="text" name="penulis" class="form-control w-50" placeholder="Masukkan Nama Penulis Buku..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Tahun : </label>
+                        <input type="number" min="1900" name="tahun" class="form-control w-50" placeholder="Masukkan Tahun..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Judul Buku : </label>
+                        <input type="text" name="judul" class="form-control w-50" placeholder="Masukkan Judul Buku..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Kota : </label>
+                        <input type="text" name="kota" class="form-control w-50" placeholder="Masukkan Kota..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Penerbit : </label>
+                        <input type="text" name="penerbit" class="form-control w-50" placeholder="Masukkan Penerbit..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Cover : </label>
+                        <input type="file" class="form-control w-50" id="cover" name="cover">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Sinopsis : </label>
+                        <input type="text" name="sinopsis" class="form-control w-50" placeholder="Masukkan Sinopsis..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label fw-bold">Stok : </label>
+                        <input type="number" min="1" name="stok" class="form-control w-50" placeholder="Masukkan Stok Buku..." required>
+                    </div>
+                    <button type="submit" class="btn btn-success" name="submit" id="submit">Tambah Data Buku</button>
+                </form>
+            </div>
         </main>
     </div>
 </div>
 
+
+<?php
+// Thor
+if(isset($_POST['submit'])){
+    $penulis = $_POST['penulis'];
+    $tahun = $_POST['tahun'];
+    $judul = $_POST['judul'];
+    $kota = $_POST['kota'];
+    $penerbit = $_POST['penerbit'];
+
+    $cover = $_FILES['cover']['name'];
+    $lokasi = $_FILES['cover']['tmp_name'];
+    $upload = move_uploaded_file($lokasi, "../assets/cover/". $cover);
+
+    $sinopsis = $_POST['sinopsis'];
+    $stok = $_POST['stok'];
+
+    $query = mysqli_query ($db, "INSERT INTO buku (id_buku, penulis, tahun, judul, kota, penerbit, cover, sinopsis, stok) VALUES('', '$penulis', $tahun, '$judul', '$kota', '$penerbit', '$cover', '$sinopsis', '$stok')");
+
+    if($query){
+        echo "<script>alert('Berhasil!');
+        document.location = 'daftar-buku.php';
+        </script>";
+    }else{
+        echo "<script>alert('Gagal!');
+        document.location = 'input-buku.php';
+        </script>";
+    }
+}
+?>
 
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 

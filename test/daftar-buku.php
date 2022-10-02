@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
-    <title>Perpustakaan | Dashboard</title>
+    <title>Perpustakaan | Daftar Peminjaman</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/dashboard/">
 
@@ -93,8 +93,9 @@
         // Data User_M Ilham
         $nip = $_SESSION['nip'];
         $query = mysqli_query ($db, "SELECT * FROM petugas WHERE nip='$nip'");
-        $data = mysqli_fetch_assoc($query);
-    ?>
+        $data = mysqli_fetch_array($query);
+
+        ?>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Perpustakaan</a>
     <div class="navbar-nav">
@@ -116,7 +117,7 @@
                 </h5>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="dashboard.php">
+                        <a class="nav-link" aria-current="page" href="dashboard.php">
                         <i class="fa-solid fa-gauge mx-2"></i>
                         Dashboard
                         </a>
@@ -128,7 +129,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="daftar-buku.php">
+                        <a class="nav-link active" aria-current="page" href="daftar-buku.php">
                         <i class="fa-solid fa-book-bookmark mx-2"></i>
                         Daftar Buku
                         </a>
@@ -171,9 +172,81 @@
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Dashboard</h1>
+                <h1 class="h2">Daftar Buku</h1>
             </div>
-            
+            <a href="input-buku.php" class="btn btn-primary"><i class="fa-regular fa-plus"></i> Tambah Buku Baru</a>
+            <div class="row mt-3">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th>ID Buku</th>
+                            <th>Judul</th>
+                            <th>Penulis</th>
+                            <th>Penerbit</th>
+                            <th>Tahun</th>
+                            <th>Kota</th>
+                            <th>Stok</th>
+                            <th colspan="3" class="w-25">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $take = mysqli_query($db,"SELECT * FROM buku");
+                        
+                        while($data = mysqli_fetch_array($take)){
+                        ?>
+                        <tr>
+                            <td><?= $data['id_buku'] ?></td>
+                            <td><?= $data['judul'] ?></td>
+                            <td><?= $data['penulis'] ?></td>
+                            <td><?= $data['penerbit'] ?></td>
+                            <td><?= $data['tahun'] ?></td>
+                            <td><?= $data['kota'] ?></td>
+                            <td><?= $data['stok'] ?></td>
+                            <td>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal<?= $data['id_buku'] ?>">
+                                Detail
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="Modal<?= $data['id_buku'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel"><?= $data['judul'] ?></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="card mb-3">
+                                                            <div class="row g-0">
+                                                                <div class="col-md-4">
+                                                                <img src="../assets/cover/<?= $data['cover'] ?>" class="img-fluid rounded-start" alt="...">
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <div class="card-body">
+                                                                        <h5 class="card-title">Sinopsis</h5>
+                                                                        <p class="card-text"><?= $data['sinopsis'] ?></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><a href="" class="btn btn-warning">Edit</a></td>
+                            <td><a href="" class="btn btn-danger">Hapus</a></td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
         </main>
     </div>
 </div>
