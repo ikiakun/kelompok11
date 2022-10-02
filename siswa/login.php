@@ -81,7 +81,7 @@
         }
 
         if(isset($_POST['login'])){
-            $nip = $_POST['nis'];
+            $nis = $_POST['nis'];
             $password = $_POST['password'];
 
             $query = mysqli_query ($db, "SELECT * FROM usersiswa WHERE nis='$nis' AND password='$password'");
@@ -89,8 +89,9 @@
 
             if($data){
                 $_SESSION['nis'] = $data['nis'];
-                
-                header('location: dashboard.php');
+
+                echo "<script>alert('Login Berhasil!')</script>";
+                header('location: index.php');
             }else{
                 echo "<script>alert('Login Gagal!')</script>";
             }
@@ -104,8 +105,8 @@
         <h1 class="h2 mb-3 fw-normal">LOG IN <label class="text-secondary">| Siswa</label> </h1>
 
         <div class="form-floating">
-            <input type="text" class="form-control" name="nip" id="nip" placeholder="Masukkan NIS" required>
-            <label for="floatingInput">Masukkan NIP</label>
+            <input type="text" class="form-control" name="nis" id="nis" placeholder="Masukkan NIS" required>
+            <label for="floatingInput">Masukkan NIS</label>
         </div>
         <div class="form-floating">
             <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>

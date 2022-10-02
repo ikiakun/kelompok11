@@ -210,7 +210,7 @@
                         <label for="exampleFormControlInput1" class="form-label fw-bold">Stok : </label>
                         <input type="number" min="1" name="stok" class="form-control w-50" placeholder="Masukkan Stok Buku..." required>
                     </div>
-                    <button type="submit" class="btn btn-success" name="submit" id="submit">Tambah Data Buku</button>
+                    <button type="submit" class="btn btn-success mb-3" name="submit" id="submit">Tambah Data Buku</button>
                 </form>
             </div>
         </main>
