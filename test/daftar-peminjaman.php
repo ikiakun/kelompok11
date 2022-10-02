@@ -243,7 +243,22 @@
                                     </div>
                                 </div>
                             </td>
-                            <td><a href="pengembalian-buku.php?id=<?= $data['id'] ?>" class="btn btn-warning">Mengembalikan</a></td>
+                            <td>
+                                <?php 
+                                    $kembalian = mysqli_query ($db, "SELECT * FROM pengembalian WHERE id_peminjaman='$data[id]'");
+                                    $data1 = mysqli_fetch_array($kembalian);
+
+
+                                            
+                                if (!$data1) {
+                                    ?>
+                                <a href="pengembalian-buku.php?id=<?= $data['id'] ?>" class="btn btn-primary">Mengembalikan</a>
+                                <?php 
+                                    }else{
+                                ?>
+                                <button type="button" class="btn btn-primary" disabled>Sudah Mengembalikan</button>
+                                <?php }?>
+                            </td>
                         </tr>
                         <?php } ?>
                     </tbody>
