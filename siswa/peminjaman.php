@@ -52,6 +52,7 @@ $take = mysqli_query($db,"SELECT * FROM buku");
                         Welcome, <?= $data['nama'] ?>
                     </a>
                     <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="index.php">Home</a></li>
                         <li><a class="dropdown-item" href="#">Peminjaman</a></li>
                         <li>
                             <form method="POST">

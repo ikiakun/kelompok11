@@ -149,7 +149,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="laporan-denda.php">
-                        <i class="fa-solid fa-file-circle-xmark mx-2"></i>
+                        <i class="fa-solid fa-file-excel mx-2"></i>
                         Laporan Denda
                         </a>
                     </li>

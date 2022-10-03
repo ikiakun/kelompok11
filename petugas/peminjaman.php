@@ -97,8 +97,6 @@
         $query = mysqli_query ($db, "SELECT * FROM petugas WHERE nip='$nip'");
         $data = mysqli_fetch_assoc($query);
 
-        // Data Buku_M Ilham
-        $buku = mysqli_query($db,"SELECT * FROM buku");
     ?>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Perpustakaan</a>
@@ -133,25 +131,25 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link" aria-current="page" href="daftar-buku.php">
                         <i class="fa-solid fa-book-bookmark mx-2"></i>
                         Daftar Buku
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link" aria-current="page" href="daftar-siswa.php">
                         <i class="fa-solid fa-users mx-1"></i>
                         Daftar Siswa
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link" aria-current="page" href="daftar-peminjaman.php">
                         <i class="fa-solid fa-file-lines mx-2"></i>
                         Laporan Peminjaman
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link" aria-current="page" href="laporan-denda.php">
                         <i class="fa-solid fa-file-excel mx-2"></i>
                         Laporan Denda
                         </a>
@@ -161,7 +159,7 @@
                         if($_SESSION['level'] == 1){
                     ?>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link" aria-current="page" href="daftar-petugas.php">
                         <i class="fa-solid fa-users-viewfinder mx-1"></i>
                         Daftar Petugas
                         </a>
@@ -189,20 +187,48 @@
                     <hr>
                     <h6 class="text-secondary">Pilih Buku : </h6>
                     <div class="row mt-3">
-                    <?php while($data = mysqli_fetch_array($buku)){ ?>
+                    <?php 
+                    $buku = mysqli_query($db,"SELECT * FROM buku WHERE stok != 0");
+
+                    while($data = mysqli_fetch_array($buku)){ ?>
                         <div class="col-4">
                             <div class="card mb-3">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img src="../assets/img/books.jpg" class="img-fluid rounded-start" alt="...">
+                                    <img src="../assets/cover/<?= $data['cover'] ?>" class="img-fluid rounded-start mt-2 mx-auto d-block" style="height: 120px;">
                                 </div>
                                 <div class="col-md-8">
                                 <div class="card-body">
-                                    <input type="checkbox" name="buku[]" id="buku[]" value="<?= $data[0] ?>" onclick="reveal()"> <small class="text-muted"> Pilih Buku</small><br>
+                                    <input type="checkbox" name="buku[]" id="buku[]" value="<?= $data[0] ?>"> <small class="text-muted"> Pilih Buku</small><br>
                                     <h5 class="card-title"><?= $data['judul'] ?></h5>
                                     <p class="card-text"><?= $data['penulis'] ?></p>
                                     <p class="card-text">Stok : <?= $data['stok'] ?> Buah</p>
-                                    <input type="number" min="0" name="jumlah[]" id="jumlah[]" class="form-control" disabled hidden placeholder="Masukkan Jumlah Buku"> <br>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                    <?php } ?>
+                    </div>
+                    <!-- Buku Yang Tidak Tersedia -->
+                    <div class="row mt-3">
+                    <?php 
+                    $buku = mysqli_query($db,"SELECT * FROM buku WHERE stok = 0");
+
+                    while($data = mysqli_fetch_array($buku)){ ?>
+                        <div class="col-4">
+                            <div class="card mb-3 border border-danger">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="../assets/cover/<?= $data['cover'] ?>" class="img-fluid rounded-start mt-2 mx-auto d-block" style="height: 120px;">
+                                </div>
+                                <div class="col-md-8">
+                                <div class="card-body">
+                                    <input type="checkbox" name="buku[]" id="buku[]" value="<?= $data[0] ?>" disabled> <small class="text-muted"> Pilih Buku</small><br>
+                                    <h5 class="card-title text-muted"><?= $data['judul'] ?></h5>
+                                    <p class="card-text text-muted"><?= $data['penulis'] ?></p>
+                                    <p class="card-text text-danger fw-bold">Stok Kosong</p>
                                 </div>
                                 </div>
                             </div>
@@ -225,23 +251,5 @@
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-
-    <!-- Reveal_M Ilham -->
-    <script>
-        function reveal(){
-            let checkbox = document.getElementsByName('buku[]');
-            let jml = document.getElementsByName('jumlah[]');
-
-            for (let i = 0; i < checkbox.length; i++) {
-            if(checkbox[i].checked == true){
-                jml[i].disabled = false;
-                jml[i].hidden = false;
-            }else{
-                jml[i].disabled = true;
-                jml[i].hidden = true;
-            }
-        }
-        }
-    </script>
 </body>
 </html>

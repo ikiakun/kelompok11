@@ -131,13 +131,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link" aria-current="page" href="daftar-buku.php">
                         <i class="fa-solid fa-book-bookmark mx-2"></i>
                         Daftar Buku
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link" aria-current="page" href="daftar-siswa.php">
                         <i class="fa-solid fa-users mx-1"></i>
                         Daftar Siswa
                         </a>
@@ -149,7 +149,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link" aria-current="page" href="laporan-denda.php">
                         <i class="fa-solid fa-file-excel mx-2"></i>
                         Laporan Denda
                         </a>
@@ -159,7 +159,7 @@
                         if($_SESSION['level'] == 1){
                     ?>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
+                        <a class="nav-link" aria-current="page" href="daftar-petugas.php">
                         <i class="fa-solid fa-users-viewfinder mx-1"></i>
                         Daftar Petugas
                         </a>

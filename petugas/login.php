@@ -1,3 +1,4 @@
+<!-- M Ilham -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -120,6 +121,7 @@
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit" name="login">Log in</button>
     </form>
+    <label class="mt-3 text-secondary">Login Sebagai Siswa? <a href="../siswa/login.php" class="link-dark">Klik Di sini</a></label>
     </main>
 
     <!-- Show Password -->

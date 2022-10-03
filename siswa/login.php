@@ -1,3 +1,4 @@
+<!-- M Ilham -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
-    <title>Login | Pegawai</title>
+    <title>Login | Siswa</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">
 
@@ -120,6 +121,7 @@
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit" name="login">Log in</button>
     </form>
+    <label class="mt-3 text-secondary">Login Sebagai Petugas? <a href="../petugas/login.php" class="link-dark">Klik Di sini</a></label>
     </main>
 
     <!-- Show Password -->
