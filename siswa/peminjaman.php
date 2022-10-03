@@ -41,7 +41,7 @@ $take = mysqli_query($db,"SELECT * FROM buku");
     <!-- Navbar -->
     <nav class="navbar bg-white">
         <div class="container">
-            <a href="" class="navbar-brand fw-bold" style="color: darkslateblue;">Perpustakaan</a>
+            <a href="index.php" class="navbar-brand fw-bold" style="color: darkslateblue;">Perpustakaan</a>
             <form class="d-flex w-50 mx-auto" role="search">
                 <input class="form-control me-2 w-100" type="search" placeholder="Cari Buku...">
                 <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
