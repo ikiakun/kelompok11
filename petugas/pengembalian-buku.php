@@ -39,7 +39,7 @@
         $secs = $hariini - $deadline;// == <seconds between the two times>
         $days = $secs / 86400;
 
-        $denda = (($days+1)*5000)*$jml_buku;
+        $denda = ($days*5000)*$jml_buku;
     }
 
 
