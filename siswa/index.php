@@ -18,8 +18,6 @@ $take = mysqli_query($db,"SELECT * FROM buku");
 </head>
 <body>
     <?php
-        include "../config.php";
-
         session_start();
 
         if(!$_SESSION){
