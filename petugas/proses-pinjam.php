@@ -14,17 +14,10 @@ $data_siswa = mysqli_fetch_array($cari_siswa);
 
 if($data_siswa){
         if(isset($_POST['buku'])){
-            $cari_tanggal = mysqli_query($db, "SELECT * FROM peminjaman WHERE nis = '$nis' and tgl_peminjaman = '$tgl_pinjam'");
-
-            if($cari_tanggal){
-                echo "<script>alert('Siswa Sudah Meminjam Buku Pada Hari Ini!');
-                document.location = 'peminjaman.php';
-                </script>";
-            }else{
                 $input = mysqli_query($db, "INSERT INTO peminjaman (nis, nip, tgl_peminjaman, tgl_pemgembalian) VALUES ('$nis','$nip','$tgl_pinjam','$tgl_kembali')");
     
                 if($input){
-                    $cari = mysqli_query($db, "SELECT * FROM peminjaman WHERE nis = '$nis' and nip = '$nip' and tgl_peminjaman = '$tgl_pinjam' and tgl_pemgembalian = '$tgl_kembali'");
+                    $cari = mysqli_query($db, "SELECT * FROM peminjaman WHERE nis = '$nis' and nip = '$nip' and tgl_peminjaman = '$tgl_pinjam' and tgl_pemgembalian = '$tgl_kembali' ORDER BY id_peminjaman DESC");
                     $data = mysqli_fetch_array($cari);
                     $id = $data[0];
         
@@ -49,7 +42,6 @@ if($data_siswa){
                         document.location = 'peminjaman.php';
                         </script>";
                 }
-            }
         }else{
             echo "<script>alert('Pilih Minimal 1 Buku!');
             document.location = 'peminjaman.php';

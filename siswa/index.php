@@ -1,8 +1,4 @@
-<?php
-include '../config.php';
-$take = mysqli_query($db,"SELECT * FROM buku");
-
-?>
+<!-- M Ilham -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +14,9 @@ $take = mysqli_query($db,"SELECT * FROM buku");
 </head>
 <body>
     <?php
+    
+        include '../config.php';
+
         session_start();
 
         if(!$_SESSION){
@@ -40,8 +39,8 @@ $take = mysqli_query($db,"SELECT * FROM buku");
     <nav class="navbar bg-white">
         <div class="container">
             <a href="" class="navbar-brand fw-bold" style="color: darkslateblue;">Perpustakaan</a>
-            <form class="d-flex w-50 mx-auto" role="search">
-                <input class="form-control me-2 w-100" type="search" placeholder="Cari Buku...">
+            <form class="d-flex w-50 mx-auto" role="search" method="GET">
+                <input class="form-control me-2 w-100" type="search" placeholder="Cari Buku..." name="search" id="search">
                 <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
             <ul class="navbar nav">
@@ -63,7 +62,7 @@ $take = mysqli_query($db,"SELECT * FROM buku");
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container mb-3">
         <!-- card1 -->
         <div class="row justify-content-center mt-3">
             <div class="card border-0" style="background-color: bisque;">
@@ -82,17 +81,93 @@ $take = mysqli_query($db,"SELECT * FROM buku");
         </div>
     
         <h4 class="mt-3 fw-bold" style="color: darkslateblue;">Daftar Buku : </h4>
-        <div class="row justify-content-center">
+        <div class="row">
             <!-- Thor -->
             <?php
+            // Serach_M Ilham
+                if(isset($_GET['search'])){
+                    $search = $_GET['search'];
+                    $take = mysqli_query($db, "SELECT * FROM buku WHERE judul LIKE '%$search%' OR penulis LIKE '%$search%' OR penerbit LIKE '%$search%'");
+                }
+                else{
+                    $take = mysqli_query($db,"SELECT * FROM buku WHERE stok != 0");
+                }
+                
                 while($data = mysqli_fetch_array($take)){
+                    if($data['stok'] !== 0){
             ?>
             <div class="col-2 mt-3">
-                <div class="card border-0">
-                    <img src="../assets/cover/<?= $data['cover'] ?>" class="img-fluid rounded-start" alt="...">
+                <div class="card border-0 shadow">
+                    <img src="../assets/cover/<?= $data['cover'] ?>" class="img" alt="..." height="200px">
                     <div class="card-body">
                         <h5 class="card-title"><?= $data['judul'] ?></h5>
                         <p class="card-text text-secondary">Stok : <?= $data['stok'] ?></p>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_buku'] ?>">
+                            Detail
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal<?= $data['id_buku'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><?= $data['judul'] ?></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="../assets/cover/<?= $data['cover'] ?>" class="d-flex mx-auto" height="300px">
+                            <table class="table table-striped mt-3">
+                                <tbody>
+                                    <tr>
+                                        <td>No : </td>
+                                        <td><?= $data['id_buku'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>penulis : </td>
+                                        <td><?= $data['penulis'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>tahun : </td>
+                                        <td><?= $data['tahun'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>judul : </td>
+                                        <td><?= $data['judul'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>kota : </td>
+                                        <td><?= $data['kota'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>penerbit : </td>
+                                        <td><?= $data['penerbit'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>sinopsis : </td>
+                                        <td><?= $data['sinopsis'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>stok : </td>
+                                        <td><?= $data['stok'] ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+                    }else{
+            ?>
+            <div class="col-2 mt-3">
+                <div class="card border-danger shadow">
+                    <img src="../assets/cover/<?= $data['cover'] ?>" class="img rounded-start" alt="..." style="height: 200px;">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $data['judul'] ?></h5>
+                        <p class="card-text text-danger">Kosong</p>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_buku'] ?>">
                             Detail
                         </button>
@@ -151,7 +226,7 @@ $take = mysqli_query($db,"SELECT * FROM buku");
                 </div>
             </div>
             <?php
-                }
+                    }}
             ?>
         </div>
     </div>

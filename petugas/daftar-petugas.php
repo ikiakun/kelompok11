@@ -1,3 +1,4 @@
+<!-- M Ilham -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -185,9 +186,10 @@
                         <tr>
                             <th scope="col">NIP</th>
                             <th scope="col">Nama</th>
+                            <th scope="col">Level</th>
                             <th scope="col">Jenis Kelamin</th>
                             <th scope="col">Alamat</th>
-                            <th colspan="2" class="w-25">Action</th>
+                            <th colspan="2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -199,6 +201,15 @@
                         <tr>
                             <td><?= $data['nip'] ?></td>
                             <td><?= $data['nama'] ?></td>
+                            <td>
+                                <?php 
+                                    if($data['id_level']=='1'){
+                                        echo "Admin";
+                                    }else{
+                                        echo "Petugas";
+                                    }
+                                ?>
+                            </td>
                             <td>
                                 <?php 
                                     if($data['jenis_kelamin']=='L'){

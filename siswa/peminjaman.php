@@ -1,3 +1,4 @@
+<!-- M Ilham -->
 <?php
 include '../config.php';
 $take = mysqli_query($db,"SELECT * FROM buku");
@@ -42,8 +43,8 @@ $take = mysqli_query($db,"SELECT * FROM buku");
     <nav class="navbar bg-white">
         <div class="container">
             <a href="index.php" class="navbar-brand fw-bold" style="color: darkslateblue;">Perpustakaan</a>
-            <form class="d-flex w-50 mx-auto" role="search">
-                <input class="form-control me-2 w-100" type="search" placeholder="Cari Buku...">
+            <form class="d-flex w-50 mx-auto" role="search" method="GET" action="index.php"> 
+                <input class="form-control me-2 w-100" type="search" placeholder="Cari Buku..." name="search" id="search">
                 <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
             <ul class="navbar nav">
@@ -145,7 +146,7 @@ $take = mysqli_query($db,"SELECT * FROM buku");
                                                         <div class="card mb-3">
                                                             <div class="row g-0">
                                                                 <div class="col-md-4">
-                                                                <img src="../assets/img/wallpaperbetter.jpg" class="img-fluid rounded-start" alt="...">
+                                                                <img src="../assets/cover/<?= $det_buku['cover'] ?>" class="img-fluid rounded-start" alt="...">
                                                                 </div>
                                                                 <div class="col-md-8">
                                                                     <div class="card-body">
