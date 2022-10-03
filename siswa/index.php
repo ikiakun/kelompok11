@@ -84,7 +84,7 @@
         <div class="row">
             <!-- Thor -->
             <?php
-            // Serach_M Ilham
+            // Search_M Ilham
                 if(isset($_GET['search'])){
                     $search = $_GET['search'];
                     $take = mysqli_query($db, "SELECT * FROM buku WHERE judul LIKE '%$search%' OR penulis LIKE '%$search%' OR penerbit LIKE '%$search%'");
