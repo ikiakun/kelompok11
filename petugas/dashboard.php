@@ -175,7 +175,137 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Dashboard</h1>
             </div>
-            
+            <div class="row">
+                <div class="col">
+                    <div class="card text-bg-primary bg-opacity-75 border-0">
+                        <div class="card-body" style="height: 150px;">
+                            <div class="row">
+                                <div class="col">
+                                    <label class="fs-5 text-light fw-bold">Daftar Buku</label>
+                                </div>
+                            </div>
+                            <div class="row mt-1 text-center">
+                                <div class="col-5">
+                                    <i class='ml-3 fa-solid fa-book fa-4x'></i>
+                                </div>
+                                <div class="col">
+                                <?php
+                                $jml_buku = array();
+                                $buku = mysqli_query ($db, "SELECT * FROM buku");
+                                while ($data_buku = mysqli_fetch_assoc($buku)){
+                                    $jml_buku[] = $data_buku;
+                                }
+                                $buku_jml = count($jml_buku);
+                                ?>
+                                <h1 class="fs-1 fw-bold"><?= $buku_jml; ?><small class="fs-5  text-light"> Buah</small></h1>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-center mt-2 fw-bold">
+                                    <a href="daftar-buku.php" class="link-light">Lihat Selengkapnya...</a> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                <div class="card text-bg-warning bg-opacity-75 border-0">
+                        <div class="card-body" style="height: 150px;">
+                            <div class="row">
+                                <div class="col">
+                                    <label class="fs-5 text-dark fw-bold">Daftar Siswa</label>
+                                </div>
+                            </div>
+                            <div class="row mt-1 text-center">
+                                <div class="col-5">
+                                    <i class='ml-3 fa-solid fa-users-between-lines fa-4x text-dark'></i>
+                                </div>
+                                <div class="col">
+                                <?php
+                                $jml_siswa = array();
+                                $siswa = mysqli_query ($db, "SELECT * FROM siswa");
+                                while ($data_siswa = mysqli_fetch_assoc($siswa)){
+                                    $jml_siswa[] = $data_siswa;
+                                }
+                                $siswa_jml = count($jml_siswa);
+                                ?>
+                                <h1 class="fs-1 fw-bold text-dark"><?= $siswa_jml; ?><small class="fs-5  text-dark"> Orang</small></h1>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-center mt-2 fw-bold">
+                                    <a href="daftar-siswa.php" class="link-dark">Lihat Selengkapnya...</a> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-bg-success bg-opacity-75 border-0">
+                        <div class="card-body" style="height: 150px;">
+                            <div class="row">
+                                <div class="col">
+                                    <label class="fs-5 text-light fw-bold">Jumlah Peminjaman</label>
+                                </div>
+                            </div>
+                            <div class="row mt-1 text-center">
+                                <div class="col-5">
+                                    <i class='ml-3 fa-solid fa-file-invoice fa-4x'></i>
+                                </div>
+                                <div class="col">
+                                <?php
+                                $jml_peminjaman = array();
+                                $peminjaman = mysqli_query ($db, "SELECT * FROM peminjaman");
+                                while ($data_peminjaman = mysqli_fetch_assoc($peminjaman)){
+                                    $jml_peminjaman[] = $data_peminjaman;
+                                }
+                                $peminjaman_jml = count($jml_peminjaman);
+                                ?>
+                                <h1 class="fs-1 fw-bold"><?= $peminjaman_jml; ?><small class="fs-5  text-light"> Buah</small></h1>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-center mt-2 fw-bold">
+                                    <a href="daftar-peminjaman.php" class="link-light">Lihat Selengkapnya...</a> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-bg-danger bg-opacity-75 border-0">
+                        <div class="card-body" style="height: 150px;">
+                            <div class="row">
+                                <div class="col">
+                                    <label class="fs-5 text-light fw-bold">Jumlah Denda</label>
+                                </div>
+                            </div>
+                            <div class="row mt-1 text-center">
+                                <div class="col-5">
+                                <i class='ml-3 fa-solid fa-file-excel fa-4x'></i>
+                                </div>
+                                <div class="col">
+                                <?php
+                                $jml_denda = array();
+                                $denda = mysqli_query ($db, "SELECT * FROM pengembalian WHERE denda != 0");
+                                while ($data_denda = mysqli_fetch_assoc($denda)){
+                                    $jml_denda[] = $data_denda;
+                                }
+                                $denda_jml = count($jml_denda);
+                                ?>
+                                <h1 class="fs-1 fw-bold"><?= $denda_jml; ?><small class="fs-5  text-light"> Buah</small></h1>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-center mt-2 fw-bold">
+                                    <a href="laporan-denda.php" class="link-light">Lihat Selengkapnya...</a> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
         </main>
     </div>
 </div>
